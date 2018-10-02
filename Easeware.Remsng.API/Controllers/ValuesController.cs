@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Easeware.Remsng.Common.Interfaces.Services;
+using Easeware.Remsng.Common.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Easeware.Remsng.API.Controllers
@@ -10,9 +12,13 @@ namespace Easeware.Remsng.API.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        // GET api/values
+        private ILicenceService _licenceService;
+        public ValuesController(ILicenceService licenceService)
+        {
+            _licenceService = licenceService;
+        }
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public async Task<ActionResult<IEnumerable<string>>> Get()
         {
             return new string[] { "value1", "value2" };
         }

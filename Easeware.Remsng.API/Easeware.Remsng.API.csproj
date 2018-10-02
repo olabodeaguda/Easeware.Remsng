@@ -10,6 +10,21 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Easeware.Remsng.Common\Easeware.Remsng.Common.csproj" />
+    <ProjectReference Include="..\Easeware.Remsng.Services\Easeware.Remsng.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="remsng_private.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="remsng_public.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
