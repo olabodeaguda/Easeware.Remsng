@@ -21,6 +21,7 @@ namespace Easeware.Remsng.Services
             services.AddTransient<IEncryptionService, EncryptionService>();
             services.AddTransient<ILicenceService, LicenceService>();
             services.AddTransient<ILcdaService, LcdaService>();
+            services.AddTransient<ITemplateService, TemplateService>();
 
         }
     }

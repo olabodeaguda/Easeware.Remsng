@@ -24,7 +24,11 @@ namespace Easeware.Remsng.API
         {
             services.AddAutoMapper();
             services.InitializeServices(Configuration);
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(options =>
+            {
+                options.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+                options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

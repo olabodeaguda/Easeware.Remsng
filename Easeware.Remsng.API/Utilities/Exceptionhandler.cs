@@ -28,6 +28,13 @@ namespace Easeware.Remsng.API.Utilities
                 responseModel.code = ResponseCode.MODEL_VALIDATION;
                 context.Response.StatusCode = (int)HttpStatusCode.BadGateway;
             }
+            else if (ex.GetType() == typeof(UnknownException))
+            {
+                responseModel.description = ex.Message ?? $"An unexpected error occured. " +
+                    $"Please try again or contact administrator if issue persist";
+                responseModel.code = ResponseCode.UNKNOWN;
+                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            }
             else
             {
                 responseModel.code = ResponseCode.GENERAL_ERROR;

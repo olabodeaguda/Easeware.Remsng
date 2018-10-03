@@ -11,5 +11,6 @@ namespace Easeware.Remsng.Common.Utilities
         public static string BAD_REQUEST = "02";
         public static string GENERAL_ERROR = "03";
         public static string MODEL_VALIDATION = "04";
+        public static string UNKNOWN = "05";
     }
 }

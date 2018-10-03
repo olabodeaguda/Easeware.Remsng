@@ -62,11 +62,13 @@ namespace Easeware.Remsng.Data.Implementations
             {
                 return pageModel;
             }
-            var result = await _context.Lcdas.OrderByDescending(x => x.CreatedBy)
+            var result = await _context.Lcdas.OrderByDescending(x => x.CreatedDate)
                 .Skip((pageModel.PageNumber - 1) * pageModel.PageSize).
                 Take(pageModel.PageSize).ToListAsync();
 
-            pageModel.Data = result.Count() > 0 ? _mapper.Map<List<LcdaModel>>(result).ToArray() : new LcdaModel[0];
+            var r = result.Select(x => _mapper.Map<LcdaModel>(x)).ToArray();
+
+            pageModel.Data = r.Count() > 0 ? r : new LcdaModel[0];
             return pageModel;
         }
 
@@ -77,7 +79,7 @@ namespace Easeware.Remsng.Data.Implementations
             {
                 return false;
             }
-            r.LcdaCode = lcdaModel.LcdaCode;
+            //r.LcdaCode = lcdaModel.LcdaCode;
             r.LcdaName = lcdaModel.LcdaName;
 
             int count = await _context.SaveChangesAsync();

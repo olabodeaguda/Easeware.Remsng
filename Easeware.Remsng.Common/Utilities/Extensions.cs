@@ -121,5 +121,11 @@ namespace Easeware.Remsng.Common.Utilities
             }
             return false;
         }
+
+        public static string GenerateLCDACode(this long id)
+        {
+            string idString = (id + 1) > 9 ? (id + 1).ToString() : "0" + (id + 1);
+            return $"REMS-{idString}";
+        }
     }
 }

@@ -11,8 +11,9 @@ namespace Easeware.Remsng.Entities
     {
         public AutomapperProfile()
         {
-            CreateMap<LcdaModel, Lcda>();
-            CreateMap<List<LcdaModel>, List<Lcda>>();
+            CreateMap<LcdaModel, Lcda>().ReverseMap();
+            CreateMap<VerificationDetailModel, VerificationDetail>().ReverseMap();
+            CreateMap<UserModel, User>().ReverseMap();
         }
     }
 }

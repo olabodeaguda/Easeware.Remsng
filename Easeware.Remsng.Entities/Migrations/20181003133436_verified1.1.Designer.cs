@@ -4,14 +4,16 @@ using Easeware.Remsng.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Easeware.Remsng.Entities.Migrations
 {
     [DbContext(typeof(RemsDbContext))]
-    partial class RemsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181003133436_verified1.1")]
+    partial class verified11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,8 +44,7 @@ namespace Easeware.Remsng.Entities.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<string>("CreatedBy");
 
                     b.Property<DateTimeOffset>("CreatedDate");
 
@@ -53,10 +54,9 @@ namespace Easeware.Remsng.Entities.Migrations
                     b.Property<string>("LcdaName")
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<string>("ModifiedBy");
 
-                    b.Property<DateTimeOffset?>("ModifiedDate");
+                    b.Property<DateTimeOffset>("ModifiedDate");
 
                     b.HasKey("Id");
 
@@ -73,8 +73,7 @@ namespace Easeware.Remsng.Entities.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<string>("CreatedBy");
 
                     b.Property<DateTimeOffset>("CreatedDate");
 
@@ -86,10 +85,9 @@ namespace Easeware.Remsng.Entities.Migrations
                     b.Property<string>("LicenseValue")
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<string>("ModifiedBy");
 
-                    b.Property<DateTimeOffset?>("ModifiedDate");
+                    b.Property<DateTimeOffset>("ModifiedDate");
 
                     b.Property<int>("UsageCount");
 
@@ -106,15 +104,13 @@ namespace Easeware.Remsng.Entities.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<string>("CreatedBy");
 
                     b.Property<DateTimeOffset>("CreatedDate");
 
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<string>("ModifiedBy");
 
-                    b.Property<DateTimeOffset?>("ModifiedDate");
+                    b.Property<DateTimeOffset>("ModifiedDate");
 
                     b.Property<string>("email")
                         .IsRequired()
@@ -169,17 +165,15 @@ namespace Easeware.Remsng.Entities.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<string>("CreatedBy");
 
                     b.Property<DateTimeOffset>("CreatedDate");
 
                     b.Property<bool>("IsVerified");
 
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<string>("ModifiedBy");
 
-                    b.Property<DateTimeOffset?>("ModifiedDate");
+                    b.Property<DateTimeOffset>("ModifiedDate");
 
                     b.Property<string>("OwnerId")
                         .IsRequired()
