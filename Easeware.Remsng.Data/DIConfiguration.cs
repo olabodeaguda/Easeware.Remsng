@@ -16,6 +16,9 @@ namespace Easeware.Remsng.Data
         {
             services.InitializeEntities(Configuration);
             services.AddTransient<ILcdaManager, LcdaManager>();
+            services.AddTransient<IUserLcdaManager, UserLcdaManager>();
+            services.AddTransient<IUserManager, UserManager>();
+            services.AddTransient<IVerificationManager, VerificationManager>();
         }
     }
 }

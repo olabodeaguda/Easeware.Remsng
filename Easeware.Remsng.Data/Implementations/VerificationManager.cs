@@ -41,9 +41,10 @@ namespace Easeware.Remsng.Data.Implementations
             return _mapper.Map<VerificationDetailModel>(vCode);
         }
 
-        public async Task<bool> InValidateCode(string verificationCode)
+        public async Task<bool> InValidateCode(string verificationCode, string ownerId)
         {
-            var vCode = await Get(verificationCode);
+            var vCode = await _context.VerificationDetails
+                .FirstOrDefaultAsync(x => x.VerificationCode == verificationCode && x.OwnerId == ownerId);
             if (vCode == null)
             {
                 return false;

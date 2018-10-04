@@ -11,8 +11,8 @@ namespace Easeware.Remsng.Common.Interfaces.Services
         Task<bool> Add(UserModel userModel);
         Task<UserModel> Get(string email);
         Task<UserModel> Get(long id);
-        Task<List<UserModel>> Get(PageModel pageModel, long Lcdaid);
-        Task<List<UserModel>> Get(PageModel pageModel, string lcdaCode);
+        Task<PageModel> Get(PageModel pageModel, long Lcdaid);
+        Task<PageModel> Get(PageModel pageModel, string lcdaCode);
 
     }
 }

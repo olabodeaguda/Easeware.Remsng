@@ -10,33 +10,34 @@ namespace Easeware.Remsng.Services.Implementations
 {
     public class UserService : IUserService
     {
-        public UserService()
+        private IUserManager _userManager;
+        public UserService(IUserManager userManager)
         {
-
+            _userManager = userManager;
         }
         public Task<bool> Add(UserModel userModel)
         {
-            throw new NotImplementedException();
+            return _userManager.Add(userModel);
         }
 
         public Task<UserModel> Get(string email)
         {
-            throw new NotImplementedException();
+            return _userManager.Get(email);
         }
 
         public Task<UserModel> Get(long id)
         {
-            throw new NotImplementedException();
+            return _userManager.Get(id);
         }
 
-        public Task<List<UserModel>> Get(PageModel pageModel, long Lcdaid)
+        public Task<PageModel> Get(PageModel pageModel, long Lcdaid)
         {
-            throw new NotImplementedException();
+            return _userManager.Get(pageModel, Lcdaid);
         }
 
-        public Task<List<UserModel>> Get(PageModel pageModel, string lcdaCode)
+        public Task<PageModel> Get(PageModel pageModel, string lcdaCode)
         {
-            throw new NotImplementedException();
+            return _userManager.Get(pageModel, lcdaCode);
         }
     }
 }

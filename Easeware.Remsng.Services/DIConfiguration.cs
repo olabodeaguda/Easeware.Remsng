@@ -22,7 +22,9 @@ namespace Easeware.Remsng.Services
             services.AddTransient<ILicenceService, LicenceService>();
             services.AddTransient<ILcdaService, LcdaService>();
             services.AddTransient<ITemplateService, TemplateService>();
-
+            services.AddTransient<ICodeGeneratorService, CodeGeneratorService>();
+            services.AddTransient<IUserLcdaService, UserLcdaService>();
+            services.AddTransient<IUserService, UserService>();
         }
     }
 }

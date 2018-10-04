@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Easeware.Remsng.Common.Interfaces.Managers
+namespace Easeware.Remsng.Common.Interfaces.Services
 {
-    public interface IVerificationManager
+    public interface IVerificationService
     {
         Task<bool> Add(VerificationDetailModel verificationDetailModel);
         Task<VerificationDetailModel> Get(string verificationCode);

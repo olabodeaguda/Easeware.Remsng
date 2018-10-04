@@ -16,6 +16,7 @@ namespace Easeware.Remsng.Entities.Entities
         public string LcdaCode { get; set; }
         [Column(TypeName = "nvarchar(250)")]
         public string LcdaName { get; set; }
+        public string LcdaStatus { get; set; }
         public ICollection<RemsLicence> Licenses { get; set; }
         public ICollection<UserLcda> UserLcdas { get; set; }
     }

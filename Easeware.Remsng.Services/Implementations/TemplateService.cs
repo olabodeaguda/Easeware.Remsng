@@ -14,7 +14,7 @@ namespace Easeware.Remsng.Services.Implementations
         {
             if (templateType == TemplateType.EMAIL_CONFIRMATION)
             {
-                var pth = Path.Combine(AppContext.BaseDirectory, "emailconfirmation.html");
+                var pth = Path.Combine(AppContext.BaseDirectory, "Template/emailconfirmation.html");
                 return await System.IO.File.ReadAllTextAsync(pth);
             }
             else
