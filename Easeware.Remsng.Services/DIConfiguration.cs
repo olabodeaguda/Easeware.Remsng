@@ -16,7 +16,9 @@ namespace Easeware.Remsng.Services
          IConfiguration Configuration)
         {
             services.InitializeData(Configuration);
+            services.AddSingleton<IConfiguration>(Configuration);
             services.AddSingleton<EmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
+            services.AddSingleton<JwtConfiguration>(Configuration.GetSection("JwtConfiguration").Get<JwtConfiguration>());
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IEncryptionService, EncryptionService>();
             services.AddTransient<ILicenceService, LicenceService>();
@@ -25,6 +27,7 @@ namespace Easeware.Remsng.Services
             services.AddTransient<ICodeGeneratorService, CodeGeneratorService>();
             services.AddTransient<IUserLcdaService, UserLcdaService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IVerificationService, VerificationService>();
         }
     }
 }

@@ -12,10 +12,12 @@ namespace Easeware.Remsng.API.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private ITemplateService _templeService;
         private ILicenceService _licenceService;
-        public ValuesController(ILicenceService licenceService)
+        public ValuesController(ILicenceService licenceService, ITemplateService templateService)
         {
             _licenceService = licenceService;
+            _templeService = templateService;
         }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<string>>> Get()

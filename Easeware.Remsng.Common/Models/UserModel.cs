@@ -1,4 +1,5 @@
-﻿using Easeware.Remsng.Common.Enums;
+﻿using AutoMapper;
+using Easeware.Remsng.Common.Enums;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -21,9 +22,12 @@ namespace Easeware.Remsng.Common.Models
         public string otherNames { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Gender is required")]
         public Gender gender { get; set; }
+      
+        [IgnoreMap()]
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
+        [IgnoreMap()]
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "Confirm Password is required")]
         [Compare("Password", ErrorMessage = "Confirm password does not match password")]

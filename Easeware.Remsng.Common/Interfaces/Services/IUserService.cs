@@ -13,6 +13,7 @@ namespace Easeware.Remsng.Common.Interfaces.Services
         Task<UserModel> Get(long id);
         Task<PageModel> Get(PageModel pageModel, long Lcdaid);
         Task<PageModel> Get(PageModel pageModel, string lcdaCode);
+        Task<bool> UpdateStatus(UserModel userModel);
 
     }
 }

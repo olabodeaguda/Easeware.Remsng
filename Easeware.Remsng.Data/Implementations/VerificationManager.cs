@@ -49,7 +49,7 @@ namespace Easeware.Remsng.Data.Implementations
             {
                 return false;
             }
-            vCode.IsVerified = false;
+            vCode.IsVerified = true;
             int count = await _context.SaveChangesAsync();
             return count > 0;
         }

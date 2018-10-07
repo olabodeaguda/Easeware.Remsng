@@ -24,11 +24,12 @@ namespace Easeware.Remsng.Entities.Entities
         [Required]
         [Column(TypeName = "nvarchar(20)")]
         public string gender { get; set; }
-        [Column(TypeName = "nvarchar(250)")]
+        [Column(TypeName = "nvarchar(MAX)")]
         public string passwordHash { get; set; }
         public string securityStamp { get; set; }
         public DateTimeOffset? lockedOutEndDateUTC { get; set; }
         public bool lockedoutenabled { get; set; }
+        public int lockedoutCount { get; set; }
         public string userStatus { get; set; }
 
         public ICollection<UserLcda> UserLcdas { get; set; }

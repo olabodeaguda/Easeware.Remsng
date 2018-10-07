@@ -37,7 +37,10 @@ namespace Easeware.Remsng.Data.Implementations
             {
                 return null;
             }
-            return _mapper.Map<UserModel>(um);
+            return _mapper.Map<UserModel>(um, opts =>
+            {
+                //opts.BeforeMap((src,dest)=> src.v)
+            });
         }
 
         public async Task<UserModel> Get(long id)
@@ -47,7 +50,10 @@ namespace Easeware.Remsng.Data.Implementations
             {
                 return null;
             }
-            return _mapper.Map<UserModel>(um);
+            return _mapper.Map<UserModel>(um, opts =>
+            {
+                //opts.BeforeMap((src,dest)=> src.v)
+            });
         }
 
         public async Task<PageModel> Get(PageModel pageModel, long Lcdaid)
@@ -101,6 +107,18 @@ namespace Easeware.Remsng.Data.Implementations
 
             pageModel.Data = r.Count() > 0 ? r : new UserModel[0];
             return pageModel;
+        }
+
+        public async Task<bool> UpdateStatus(UserModel userModel)
+        {
+            User um = await _remsDbContext.Users.FindAsync(userModel.id);
+            if (um == null)
+            {
+                return false;
+            }
+            um.userStatus = userModel.userStatus.ToString();
+            int count = await _remsDbContext.SaveChangesAsync();
+            return count > 0;
         }
     }
 }

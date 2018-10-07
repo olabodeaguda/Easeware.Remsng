@@ -4,7 +4,8 @@ using System.Text;
 
 namespace Easeware.Remsng.Common.Interfaces.Services
 {
-    interface IAuthService
+    public interface IAuthService
     {
+
     }
 }

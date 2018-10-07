@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Easeware.Remsng.API.Utilities;
 using Easeware.Remsng.Common.Enums;
@@ -8,8 +6,6 @@ using Easeware.Remsng.Common.Exceptions;
 using Easeware.Remsng.Common.Interfaces.Services;
 using Easeware.Remsng.Common.Models;
 using Easeware.Remsng.Common.Utilities;
-using Easeware.Remsng.Services.Implementations;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -19,21 +15,25 @@ namespace Easeware.Remsng.API.Controllers
     [Route("api/v2.0/user")]
     public class UserController : ControllerBase
     {
-        private readonly IUserService _userService;
-        private readonly ITemplateService _templateService;
-        private readonly IConfiguration _configuration;
-        private readonly IVerificationService _verificationService;
-        private readonly ICodeGeneratorService _codeGenerationService;
+        private IEmailService _emailService;
+        private IUserService _userService;
+        private ITemplateService _templateService;
+        private IConfiguration _configuration;
+        private IVerificationService _verificationService;
+        private ICodeGeneratorService _codeGenerationService;
         public UserController(IUserService userService,
-            TemplateService templateService,
+            ITemplateService templateService,
             IConfiguration configuration,
-            IVerificationService verificationService, ICodeGeneratorService codeGeneratorService)
+            IVerificationService verificationService,
+            ICodeGeneratorService codeGeneratorService,
+            IEmailService emailService)
         {
             _userService = userService;
             _configuration = configuration;
-            _templateService = templateService;
             _verificationService = verificationService;
             _codeGenerationService = codeGeneratorService;
+            _templateService = templateService;
+            _emailService = emailService;
         }
         public async Task<IActionResult> Post([FromBody] UserModel userModel)
         {
@@ -41,12 +41,12 @@ namespace Easeware.Remsng.API.Controllers
             VerificationDetailModel vDetails = new VerificationDetailModel()
             {
                 CreatedBy = User.Identity.Name,
-                OwnerId = um.id.ToString(),
                 VerificationCode = _codeGenerationService.VerificationCode()
             };
 
             if (um != null)
             {
+                vDetails.OwnerId = um.id.ToString();
                 ResponseModel responseModel = new ResponseModel();
                 responseModel.code = ResponseCode.FAIL;
 
@@ -59,11 +59,21 @@ namespace Easeware.Remsng.API.Controllers
                         if (!string.IsNullOrEmpty(template))
                         {
                             template = template.Replace("$FULLNAME$", $"{userModel.lastname} {userModel.otherNames}");
-                            template = template.Replace("$VERIFICATION_URL$", $"{_configuration["domainUrl"]}/{um.id}/{vDetails.VerificationCode}");
+                            template = template.Replace("$VERIFICATION_URL$", $"{_configuration["domainUrl"]}/api/v2.0/user/verify/{um.id}/{vDetails.VerificationCode}");
+                            NotificationModel notificationModel = new NotificationModel()
+                            {
+                                Content = template,
+                                ContentType = EmailContentType.HTML,
+                                Title = "Email Verification",
+                                ToEmails = new List<string>() { um.email },
+                                FromEmail = _configuration["EmailConfiguration:VerificationEmail"]
+                            };
+
+                            await _emailService.Send(notificationModel);
                         }
                     }
 
-                    responseModel.description = $"An email has been send to the email for verification";
+                    responseModel.description = $"An email has been send to your email for verification";
                 }
                 return Ok(responseModel);
             }
@@ -72,6 +82,7 @@ namespace Easeware.Remsng.API.Controllers
             if (result)
             {
                 UserModel umm = await _userService.Get(userModel.email);
+                vDetails.OwnerId = umm.id.ToString();
                 bool vResult = await _verificationService.Add(vDetails);
                 if (vResult)
                 {
@@ -79,7 +90,17 @@ namespace Easeware.Remsng.API.Controllers
                     if (!string.IsNullOrEmpty(template))
                     {
                         template = template.Replace("$FULLNAME$", $"{userModel.lastname} {userModel.otherNames}");
-                        template = template.Replace("$VERIFICATION_URL$", $"{_configuration["domainUrl"]}/{umm.id}/{vDetails.VerificationCode}");
+                        template = template.Replace("$VERIFICATION_URL$", $"{_configuration["domainUrl"]}/api/v2.0/user/verify/{umm.id}/{vDetails.VerificationCode}");
+                        NotificationModel notificationModel = new NotificationModel()
+                        {
+                            Content = template,
+                            ContentType = EmailContentType.HTML,
+                            Title = "Email Verification",
+                            ToEmails = new List<string>() { umm.email },
+                            FromEmail = _configuration["EmailConfiguration:VerificationEmail"]
+                        };
+
+                        await _emailService.Send(notificationModel);
                     }
                 }
                 return Ok(new ResponseModel()
@@ -117,10 +138,12 @@ namespace Easeware.Remsng.API.Controllers
             {
                 throw new BadRequestException($"Verification link has been used");
             }
+            udetails.userStatus = UserStatus.ACTIVE;
 
-            bool result = await _verificationService.InValidateCode(vcode, id.ToString());
+            bool result = await _userService.UpdateStatus(udetails);
             if (result)
             {
+                await _verificationService.InValidateCode(vcode, id.ToString());
                 return Ok(new ResponseModel()
                 {
                     code = ResponseCode.SUCCESSFULL,

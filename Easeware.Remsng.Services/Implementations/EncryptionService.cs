@@ -61,7 +61,7 @@ namespace Easeware.Remsng.Services.Implementations
             }
         }
 
-        private void FromXmlStr(RSA rsa, string xmlString)
+        public void FromXmlStr(RSA rsa, string xmlString)
         {
             var parameters = new RSAParameters();
             XmlDocument xmlDoc = new XmlDocument();

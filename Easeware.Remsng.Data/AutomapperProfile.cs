@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Easeware.Remsng.Common.Models;
+using Easeware.Remsng.Data;
 using Easeware.Remsng.Entities.Entities;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,8 @@ namespace Easeware.Remsng.Entities
         public AutomapperProfile()
         {
             CreateMap<LcdaModel, Lcda>().ReverseMap();
-            CreateMap<VerificationDetailModel, VerificationDetail>().ReverseMap();
-            CreateMap<UserModel, User>().ReverseMap();
+            CreateMap<VerificationDetailModel, VerificationDetail>(MemberList.None).ReverseMap();
+            CreateMap<UserModel, User>(MemberList.None).ReverseMap();
         }
     }
 }
