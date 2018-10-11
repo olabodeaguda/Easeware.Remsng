@@ -35,6 +35,25 @@ namespace Easeware.Remsng.API.Utilities
                 responseModel.code = ResponseCode.UNKNOWN;
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             }
+            else if (ex.GetType() == typeof(NotFoundException))
+            {
+                responseModel.description = ex.Message;
+                responseModel.code = ResponseCode.NOTFOUND;
+                context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+            }
+            else if (ex.GetType() == typeof(SessionExpiredException))
+            {
+                responseModel.description = "Session has expired";
+                responseModel.code = ResponseCode.SESSION_EXPIRED;
+                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            }
+            else if (ex.GetType() == typeof(UnknownException))
+            {
+                responseModel.description = ex.Message ?? $"An unexpected error occured. " +
+                    $"Please try again or contact administrator if issue persist";
+                responseModel.code = ResponseCode.SESSION_EXPIRED;
+                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            }
             else
             {
                 responseModel.code = ResponseCode.GENERAL_ERROR;

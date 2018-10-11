@@ -25,6 +25,10 @@ namespace Easeware.Remsng.Services.Implementations
             }
             return await _userlcdaManager.Add(userLcdaModel);
         }
+        public async Task<UserLcdaModel> Get(UserLcdaModel userLcdaModel)
+        {
+            return await _userlcdaManager.Get(userLcdaModel);
+        }
 
         public async Task<bool> Remove(UserLcdaModel userLcdaModel)
         {

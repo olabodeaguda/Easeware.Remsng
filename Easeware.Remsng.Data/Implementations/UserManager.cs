@@ -120,5 +120,20 @@ namespace Easeware.Remsng.Data.Implementations
             int count = await _remsDbContext.SaveChangesAsync();
             return count > 0;
         }
+
+        public async Task<bool> ChangePassword(UserModel uModel)
+        {
+            User userModel = await _remsDbContext.Users.FindAsync(uModel.id);
+            if (userModel == null)
+            {
+                return false;
+            }
+            userModel.passwordHash = uModel.passwordHash;
+            uModel.ModifiedBy = uModel.ModifiedBy;
+            uModel.ModifiedDate = DateTimeOffset.Now;
+
+            int count = await _remsDbContext.SaveChangesAsync();
+            return count > 0;
+        }
     }
 }

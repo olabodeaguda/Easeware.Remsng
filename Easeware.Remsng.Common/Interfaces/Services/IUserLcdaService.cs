@@ -9,6 +9,7 @@ namespace Easeware.Remsng.Common.Interfaces.Services
     public interface IUserLcdaService
     {
         Task<bool> Add(UserLcdaModel userLcdaModel);
+        Task<UserLcdaModel> Get(UserLcdaModel userLcdaModel);
         Task<bool> Remove(UserLcdaModel userLcdaModel);
     }
 }

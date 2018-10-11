@@ -28,6 +28,14 @@ namespace Easeware.Remsng.Services
             services.AddTransient<IUserLcdaService, UserLcdaService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IVerificationService, VerificationService>();
+            services.AddTransient<IAuthService, AuthService>();
+
+            services.AddDistributedSqlServerCache(options =>
+            {
+                options.ConnectionString = Configuration.GetConnectionString("DefaultConnection");
+                options.SchemaName = "dbo";
+                options.TableName = "MemoryCache";
+            });
         }
     }
 }

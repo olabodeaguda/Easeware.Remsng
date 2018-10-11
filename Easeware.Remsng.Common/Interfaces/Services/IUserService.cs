@@ -14,6 +14,6 @@ namespace Easeware.Remsng.Common.Interfaces.Services
         Task<PageModel> Get(PageModel pageModel, long Lcdaid);
         Task<PageModel> Get(PageModel pageModel, string lcdaCode);
         Task<bool> UpdateStatus(UserModel userModel);
-
+        Task<bool> ChangePassword(UserModel uModel);
     }
 }

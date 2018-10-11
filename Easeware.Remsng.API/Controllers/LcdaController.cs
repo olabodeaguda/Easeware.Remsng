@@ -75,15 +75,22 @@ namespace Easeware.Remsng.API.Controllers
                 throw new BadRequestException("LCDA is not active");
             }
 
+            UserLcdaModel ulModel = await _userLcdaService.Get(userLcdaModel);
+            if (ulModel != null)
+            {
+                throw new BadRequestException("User already have access to the lcda");
+            }
+
             bool result = await _userLcdaService.Add(userLcdaModel);
             if (result)
             {
                 return Ok(new ResponseModel()
                 {
                     code = ResponseCode.SUCCESSFULL,
-                    description = "Request is successful"
+                    description = "User has been added to the LCDA successfully"
                 });
             }
+
             throw new UnknownException("An error occured while trying to assign user to lcda");
         }
     }

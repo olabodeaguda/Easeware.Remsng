@@ -18,6 +18,12 @@ namespace Easeware.Remsng.Services.Implementations
                 return await System.IO.File.ReadAllTextAsync(pth);
             }
             else
+            if (templateType == TemplateType.PASSWORD_RESET)
+            {
+                var pth = Path.Combine(AppContext.BaseDirectory, "Templates/changepassword.html");
+                return await System.IO.File.ReadAllTextAsync(pth);
+            }
+            else
             {
                 return string.Empty;
             }

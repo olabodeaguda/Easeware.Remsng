@@ -47,5 +47,9 @@ namespace Easeware.Remsng.Services.Implementations
         {
             return _userManager.UpdateStatus(userModel);
         }
+        public Task<bool> ChangePassword(UserModel uModel)
+        {
+            return _userManager.ChangePassword(uModel);
+        }
     }
 }

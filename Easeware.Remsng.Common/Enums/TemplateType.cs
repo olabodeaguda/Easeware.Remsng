@@ -6,6 +6,6 @@ namespace Easeware.Remsng.Common.Enums
 {
     public enum TemplateType
     {
-        EMAIL_CONFIRMATION
+        EMAIL_CONFIRMATION, PASSWORD_RESET
     }
 }
