@@ -7,9 +7,9 @@ namespace Easeware.Remsng.Common.Models
 {
     public class ChangePasswordModel
     {
-        [Required(ErrorMessage = "Old Password is required")]
+        //[Required(ErrorMessage = "Old Password is required")]
         public string OldPassword { get; set; }
-
+        [StringLength(20, ErrorMessage = "Password length must be more than 8", MinimumLength = 8)]
         [Required(ErrorMessage = "New Password is required")]
         public string NewPassword { get; set; }
 

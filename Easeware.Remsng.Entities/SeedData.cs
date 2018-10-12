@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Easeware.Remsng.Entities.Entities;
+using System.Linq;
 
 namespace Easeware.Remsng.Entities
 {
@@ -12,7 +14,36 @@ namespace Easeware.Remsng.Entities
         {
             var context = serviceProvider.GetRequiredService<RemsDbContext>();
             context.Database.EnsureCreated();
-            context.Database.Migrate();
+
+            var ctry = context.Countries.Include(x => x.States).FirstOrDefault(x => x.CountryCode == "NGN");
+            if (ctry == null)
+            {
+                Country c = new Country()
+                {
+                    CountryCode = "NGN",
+                    CountryName = "Nigeria",
+                    States = new List<State>()
+                };
+                context.Countries.Add(c);
+            }
+
+            var stats = context.States.ToList();
+            if (!stats.Any(x => x.stateCode == "LAG"))
+            {
+                State state = new State()
+                {
+                    stateName = "Lagos State",
+                    stateCode = "LAG"
+                };
+
+                if (ctry == null)
+                {
+                    ctry = context.Countries.FirstOrDefault(x => x.CountryCode == "NGN");
+                }
+                ctry.States.Add(state);
+            }
+
+            context.SaveChanges();
         }
     }
 }

@@ -32,7 +32,7 @@ namespace Easeware.Remsng.API.Controllers
             IJwtService jwtService, IAuthService authService,
             IVerificationService verificationService,
             IConfiguration configuration,
-            IEmailService emailService)
+            IEmailService emailService, ICodeGeneratorService codeGenerationService)
         {
             _userService = userService;
             _encryptionService = encryptionService;
@@ -42,6 +42,7 @@ namespace Easeware.Remsng.API.Controllers
             _verificationService = verificationService;
             _configuration = configuration;
             _emailService = emailService;
+            _codeGenerationService = codeGenerationService;
         }
 
         [HttpPost]
@@ -72,7 +73,7 @@ namespace Easeware.Remsng.API.Controllers
             return Ok(loginResponseModel);
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("refreshtoken/{refreshtoken}")]
         public async Task<IActionResult> RefreshToken(string refreshtoken)
         {
@@ -81,7 +82,7 @@ namespace Easeware.Remsng.API.Controllers
                 throw new BadRequestException("Refresh token is invalid");
             }
 
-            LoginResponseModel loginResponseModel = await _authService.SessionLog(refreshtoken);
+            LoginResponseModel loginResponseModel = await _authService.GetSession(refreshtoken);
 
             if (loginResponseModel == null)
             {
@@ -106,9 +107,10 @@ namespace Easeware.Remsng.API.Controllers
                 accessId = userModel.id
             };
 
-            await _authService.LogAccess(loginResponseModel);
+            await _authService.LogAccess(lRModel);
+            await _authService.Remove(loginResponseModel);
             lRModel.accessId = -1;
-            return Ok(loginResponseModel);
+            return Ok(lRModel);
         }
 
         [HttpGet("chngpwdinitialize/{username}")]
@@ -131,6 +133,7 @@ namespace Easeware.Remsng.API.Controllers
                 VerificationCode = _codeGenerationService.VerificationCode(),
                 OwnerId = userModel.id.ToString()
             };
+
             bool vResult = await _verificationService.Add(vDetails);
             if (vResult)
             {
@@ -189,10 +192,10 @@ namespace Easeware.Remsng.API.Controllers
                 throw new BadRequestException("Verification link has expired");
             }
 
-            if (changePasswordModel.OldPassword != _encryptionService.Decrypt(userModel.passwordHash))
-            {
-                throw new BadRequestException("Old Password is incorrect");
-            }
+            //if (changePasswordModel.OldPassword != _encryptionService.Decrypt(userModel.passwordHash))
+            //{
+            //    throw new BadRequestException("Old Password is incorrect");
+            //}
 
             userModel.passwordHash = _encryptionService.Encrypt(changePasswordModel.NewPassword);
 

@@ -1,0 +1,22 @@
+﻿using Easeware.Remsng.Common.Models;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text;
+
+namespace Easeware.Remsng.Entities.Entities
+{
+    public class Ward : BaseModel
+    {
+        public long Id { get; set; }
+        [Column(TypeName = "nvarchar(20)")]
+        public string WardCode { get; set; }
+
+        [Column(TypeName = "nvarchar(150)")]
+        public string WardName { get; set; }
+
+        public long LcdaId { get; set; }
+
+        public Lcda Lcda { get; set; }
+    }
+}

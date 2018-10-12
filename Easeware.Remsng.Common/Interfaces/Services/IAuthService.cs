@@ -15,7 +15,7 @@ namespace Easeware.Remsng.Common.Interfaces.Services
         /// <returns></returns>
         Task LogAccess(LoginResponseModel loginResponseModel);
 
-        Task<LoginResponseModel> SessionLog(string refreshToken);
+        Task<LoginResponseModel> GetSession(string refreshToken);
         Task Remove(LoginResponseModel loginResponseModel);
         Task RefreshSession(LoginResponseModel loginResponseModel);
     }

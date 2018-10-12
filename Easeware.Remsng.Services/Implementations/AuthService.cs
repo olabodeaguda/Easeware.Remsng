@@ -22,33 +22,24 @@ namespace Easeware.Remsng.Services.Implementations
         public async Task LogAccess(LoginResponseModel loginResponseModel)
         {
             await _distributedCache.SetStringAsync(loginResponseModel.accessToken,
-                JsonConvert.SerializeObject(loginResponseModel), new DistributedCacheEntryOptions()
-                {
-                    AbsoluteExpiration = DateTimeOffset.UtcNow.AddSeconds(_jwtConfiguration.TokenLifespan)
-                });
+                JsonConvert.SerializeObject(loginResponseModel), distributedCacheEntryOptionsToken());
             await _distributedCache.SetStringAsync(loginResponseModel.refreshToken,
-               JsonConvert.SerializeObject(loginResponseModel), new DistributedCacheEntryOptions()
-               {
-                   AbsoluteExpiration = DateTimeOffset.UtcNow.AddSeconds(_jwtConfiguration.SessionLifespan)
-               });
+               JsonConvert.SerializeObject(loginResponseModel), distributedCacheEntryOptionsSession());
         }
 
         public async Task RefreshSession(LoginResponseModel loginResponseModel)
         {
             await _distributedCache.SetStringAsync(loginResponseModel.refreshToken,
-              JsonConvert.SerializeObject(loginResponseModel), new DistributedCacheEntryOptions()
-              {
-                  AbsoluteExpiration = DateTimeOffset.UtcNow.AddSeconds(_jwtConfiguration.SessionLifespan)
-              });
+              JsonConvert.SerializeObject(loginResponseModel), distributedCacheEntryOptionsSession());
         }
 
         public async Task Remove(LoginResponseModel loginResponseModel)
         {
-            await _distributedCache.RefreshAsync(loginResponseModel.accessToken);
-            await _distributedCache.RefreshAsync(loginResponseModel.refreshToken);
+            await _distributedCache.RemoveAsync(loginResponseModel.accessToken);
+            await _distributedCache.RemoveAsync(loginResponseModel.refreshToken);
         }
 
-        public async Task<LoginResponseModel> SessionLog(string refreshToken)
+        public async Task<LoginResponseModel> GetSession(string refreshToken)
         {
             string result = await _distributedCache.GetStringAsync(refreshToken);
             if (string.IsNullOrEmpty(result))
@@ -58,6 +49,23 @@ namespace Easeware.Remsng.Services.Implementations
             return JsonConvert.DeserializeObject<LoginResponseModel>(result);
         }
 
+        private DistributedCacheEntryOptions distributedCacheEntryOptionsSession()
+        {
+            return new DistributedCacheEntryOptions()
+            {
+                AbsoluteExpiration = DateTimeOffset.UtcNow.AddSeconds(_jwtConfiguration.SessionLifespan)
+                //,
+               // SlidingExpiration = TimeSpan.FromSeconds(_jwtConfiguration.SessionLifespan)
+            };
+        }
+        private DistributedCacheEntryOptions distributedCacheEntryOptionsToken()
+        {
+            return new DistributedCacheEntryOptions()
+            {
+               // AbsoluteExpiration = DateTimeOffset.UtcNow.AddSeconds(_jwtConfiguration.TokenLifespan),
+                SlidingExpiration = TimeSpan.FromSeconds(_jwtConfiguration.TokenLifespan)
+            };
+        }
 
     }
 }
