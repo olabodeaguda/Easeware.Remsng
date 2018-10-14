@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Easeware.Remsng.Common.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -12,5 +13,6 @@ namespace Easeware.Remsng.Common.Models
         public string WardName { get; set; }
 
         public string LcdaId { get; set; }
+        public WardStatus Status { get; set; }
     }
 }

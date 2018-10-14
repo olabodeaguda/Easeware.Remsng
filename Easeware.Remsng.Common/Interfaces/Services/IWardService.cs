@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Easeware.Remsng.Common.Interfaces.Managers
+namespace Easeware.Remsng.Common.Interfaces.Services
 {
-    public interface IWardManager
+    public interface IWardService
     {
         Task<ResponseModel> AddAsync(WardModel wardModel);
         Task<ResponseModel> UpdateAsync(WardModel wardModel);
@@ -14,6 +14,5 @@ namespace Easeware.Remsng.Common.Interfaces.Managers
         Task<PageModel> GetAsync(PageModel pageModel, long lcdaId);
         Task<WardModel> GetByIdAsync(long wardId);
         Task<ResponseModel> UpdateStatusAsync(WardModel wardModel);
-
     }
 }

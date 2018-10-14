@@ -30,6 +30,7 @@ namespace Easeware.Remsng.Services
             services.AddTransient<IVerificationService, VerificationService>();
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IJwtService, JwtService>();
+            services.AddTransient<IWardService, WardService>();
 
             services.AddDistributedSqlServerCache(options =>
             {

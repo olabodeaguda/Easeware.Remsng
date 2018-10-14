@@ -23,11 +23,25 @@ namespace Easeware.Remsng.Data.Implementations
             _mapper = mapper;
         }
 
-        public async Task<int> AddAsync(WardModel wardModel)
+        public async Task<ResponseModel> AddAsync(WardModel wardModel)
         {
             Ward ward = _mapper.Map<Ward>(wardModel);
             _context.Wards.Add(ward);
-            return await _context.SaveChangesAsync();
+           int count = await _context.SaveChangesAsync();
+
+            if (count > 0)
+            {
+                return new ResponseModel()
+                {
+                    code = ResponseCode.SUCCESSFULL,
+                    description = $"{wardModel.WardName} has been updated successfully"
+                };
+            }
+            return new ResponseModel()
+            {
+                code = ResponseCode.FAIL,
+                description = "Update was not successful. Please try again or contact an administrator, if error persist"
+            };
         }
 
         public async Task<PageModel> GetAsync(PageModel pageModel, long lcdaId)
@@ -102,9 +116,35 @@ namespace Easeware.Remsng.Data.Implementations
             };
         }
 
-        public Task<ResponseModel> UpdateStatusAsync(WardModel wardModel)
+        public async Task<ResponseModel> UpdateStatusAsync(WardModel wardModel)
         {
-            throw new NotImplementedException();
+            var ward = await _context.Wards.FindAsync(wardModel.Id);
+            if (ward == null)
+            {
+                return new ResponseModel()
+                {
+                    code = ResponseCode.NOTFOUND,
+                    description = "Ward can not be found"
+                };
+            }
+
+            ward.Status = wardModel.Status.ToString();
+            ward.ModifiedBy = wardModel.ModifiedBy;
+            ward.ModifiedDate = DateTimeOffset.Now;
+            int count = await _context.SaveChangesAsync();
+            if (count > 0)
+            {
+                return new ResponseModel()
+                {
+                    code = ResponseCode.SUCCESSFULL,
+                    description = $"{wardModel.WardName} has been updated successfully"
+                };
+            }
+            return new ResponseModel()
+            {
+                code = ResponseCode.FAIL,
+                description = "Update was not successful. Please try again or contact an administrator, if error persist"
+            };
         }
     }
 }
