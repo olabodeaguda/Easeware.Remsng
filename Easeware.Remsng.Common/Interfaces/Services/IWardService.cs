@@ -14,5 +14,7 @@ namespace Easeware.Remsng.Common.Interfaces.Services
         Task<PageModel> GetAsync(PageModel pageModel, long lcdaId);
         Task<WardModel> GetByIdAsync(long wardId);
         Task<ResponseModel> UpdateStatusAsync(WardModel wardModel);
+        Task<WardModel> GetAsync(string wardName);
+        Task<long> LastId();
     }
 }

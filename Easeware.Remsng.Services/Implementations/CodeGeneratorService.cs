@@ -7,10 +7,10 @@ namespace Easeware.Remsng.Services.Implementations
 {
     public class CodeGeneratorService : ICodeGeneratorService
     {
-        public string NewLcdaCode(long initiialId)
+        public string NewCode(long initiialId, string pre)
         {
             string idString = (initiialId + 1) > 9 ? (initiialId + 1).ToString() : "0" + (initiialId + 1);
-            return $"REMS-{idString}";
+            return $"{pre}-{idString}";
         }
 
         public string VerificationCode()

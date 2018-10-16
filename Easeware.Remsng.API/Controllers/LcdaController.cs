@@ -36,7 +36,7 @@ namespace Easeware.Remsng.API.Controllers
         public async Task<IActionResult> Add([FromBody] LcdaModel lcdaModel)
         {
             long lastId = await _lcdaService.LastId();
-            lcdaModel.LcdaCode = _codeGenerationService.NewLcdaCode(lastId);
+            lcdaModel.LcdaCode = _codeGenerationService.NewCode(lastId, "REMS");
             bool result = await _lcdaService.Add(lcdaModel);
             if (result)
             {

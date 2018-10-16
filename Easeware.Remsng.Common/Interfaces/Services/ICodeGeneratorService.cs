@@ -6,7 +6,7 @@ namespace Easeware.Remsng.Common.Interfaces.Services
 {
     public interface ICodeGeneratorService
     {
-        string NewLcdaCode(long initiialId);
+        string NewCode(long initiialId, string pre);
         string VerificationCode();
     }
 }

@@ -27,7 +27,7 @@ namespace Easeware.Remsng.Data.Implementations
         {
             Ward ward = _mapper.Map<Ward>(wardModel);
             _context.Wards.Add(ward);
-           int count = await _context.SaveChangesAsync();
+            int count = await _context.SaveChangesAsync();
 
             if (count > 0)
             {
@@ -63,6 +63,17 @@ namespace Easeware.Remsng.Data.Implementations
             return pageModel;
         }
 
+        public async Task<WardModel> GetAsync(string wardName)
+        {
+            Ward ward = await _context.Wards.FirstOrDefaultAsync(x => x.WardName.ToLower() == wardName.ToLower());
+            if (ward == null)
+            {
+                return null;
+            }
+
+            return _mapper.Map<WardModel>(ward);
+        }
+
         public async Task<WardModel> GetByIdAsync(long wardId)
         {
             var ward = await _context.Wards.FindAsync(wardId);
@@ -83,6 +94,16 @@ namespace Easeware.Remsng.Data.Implementations
             }
 
             return wards.Select(x => _mapper.Map<WardModel>(x)).ToList();
+        }
+
+        public async Task<long> LastId()
+        {
+            var lastWard = await _context.Wards.LastOrDefaultAsync();
+            if (lastWard == null)
+            {
+                return 0;
+            }
+            return lastWard.Id;
         }
 
         public async Task<ResponseModel> UpdateAsync(WardModel wardModel)
