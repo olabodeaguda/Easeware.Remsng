@@ -4,14 +4,16 @@ using Easeware.Remsng.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Easeware.Remsng.Entities.Migrations
 {
     [DbContext(typeof(RemsDbContext))]
-    partial class RemsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181017145018_taxpayer-update")]
+    partial class taxpayerupdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -196,8 +198,6 @@ namespace Easeware.Remsng.Entities.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("LcdaId");
-
                     b.Property<string>("SectorCode")
                         .HasColumnType("nvarchar(20)");
 
@@ -205,6 +205,10 @@ namespace Easeware.Remsng.Entities.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SectorCode")
+                        .IsUnique()
+                        .HasFilter("[SectorCode] IS NOT NULL");
 
                     b.ToTable("Sectors");
                 });

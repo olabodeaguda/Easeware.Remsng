@@ -17,6 +17,7 @@ namespace Easeware.Remsng.Entities
             CreateMap<UserModel, User>(MemberList.None).ReverseMap();
             CreateMap<UserLcdaModel, UserLcda>(MemberList.None).ReverseMap();
             CreateMap<WardModel, Ward>(MemberList.None).ReverseMap();
+            CreateMap<SectorModel, Sector>(MemberList.None).ReverseMap();
         }
     }
 }

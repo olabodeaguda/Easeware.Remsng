@@ -7,22 +7,14 @@ using System.Text;
 
 namespace Easeware.Remsng.Entities.Entities
 {
-    public class Ward : BaseModel
+    public class Company : BaseModel
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
-        [Column(TypeName = "nvarchar(20)")]
-        public string WardCode { get; set; }
-
         [Column(TypeName = "nvarchar(150)")]
-        public string WardName { get; set; }
-
-        public long LcdaId { get; set; }
-
-        public Lcda Lcda { get; set; }
-        public string Status { get; set; }
-
-        public ICollection<Street> Streets { get; set; }
+        public string CompanyName { get; set; }
+        [Column(TypeName = "nvarchar(20)")]
+        public string CompanyCode { get; set; }
     }
 }

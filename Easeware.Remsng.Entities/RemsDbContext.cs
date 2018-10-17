@@ -21,6 +21,11 @@ namespace Easeware.Remsng.Entities
         public DbSet<Country> Countries { get; set; }
         public DbSet<State> States { get; set; }
         public DbSet<Ward> Wards { get; set; }
+        public DbSet<Street> Streets { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<Sector> Sectors { get; set; }
+        public DbSet<Taxpayer> Taxpayers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -80,6 +85,38 @@ namespace Easeware.Remsng.Entities
                 .HasOne(x => x.Lcda)
                 .WithMany(x => x.Wards)
                 .HasForeignKey(x => x.LcdaId);
+
+            modelBuilder.Entity<Address>()
+                .HasIndex(x => x.HouseNumber);
+
+            modelBuilder.Entity<Address>()
+                .HasIndex(x => x.OwnerId);
+
+            modelBuilder.Entity<Address>()
+                .HasOne(x => x.Street)
+                .WithMany(x => x.Addresses)
+                .HasForeignKey(x => x.StreetId);
+
+            modelBuilder.Entity<Company>()
+                .HasIndex(x => x.CompanyCode)
+                .IsUnique();
+
+            //modelBuilder.Entity<Sector>()
+            //    .HasIndex(x => x.SectorCode)
+            //    .IsUnique();
+
+            modelBuilder.Entity<Street>()
+                .HasOne(x => x.Ward)
+                .WithMany(x => x.Streets)
+                .HasForeignKey(x => x.WardId);
+
+            modelBuilder.Entity<Taxpayer>()
+                .HasIndex(x => x.AddressId)
+                .IsUnique();
+            modelBuilder.Entity<Taxpayer>()
+                .HasIndex(x => x.CompanyId)
+                .IsUnique();
+
         }
     }
 }
