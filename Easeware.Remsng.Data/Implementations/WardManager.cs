@@ -44,16 +44,16 @@ namespace Easeware.Remsng.Data.Implementations
             };
         }
 
-        public async Task<PageModel> GetAsync(PageModel pageModel, long lcdaId)
+        public async Task<PageModel> GetAsync(PageModel pageModel, string lcdaCode)
         {
             pageModel.PageNumber = pageModel.PageNumber < 1 ? 1 : pageModel.PageNumber;
             pageModel.PageSize = pageModel.PageSize < 1 ? 20 : pageModel.PageSize;
-            pageModel.TotalSize = await _context.Wards.Where(x => x.LcdaId == lcdaId).CountAsync();
+            pageModel.TotalSize = await _context.Wards.Where(x => x.LcdaCode == lcdaCode).CountAsync();
             if (pageModel.TotalSize < 1)
             {
                 return pageModel;
             }
-            var result = await _context.Wards.Where(x => x.LcdaId == lcdaId).OrderByDescending(x => x.CreatedDate)
+            var result = await _context.Wards.Where(x => x.LcdaCode == lcdaCode).OrderByDescending(x => x.CreatedDate)
                 .Skip((pageModel.PageNumber - 1) * pageModel.PageSize).
                 Take(pageModel.PageSize).ToListAsync();
 
@@ -85,9 +85,9 @@ namespace Easeware.Remsng.Data.Implementations
             return _mapper.Map<WardModel>(ward);
         }
 
-        public async Task<List<WardModel>> GetByLcdaAsync(long lcdaId)
+        public async Task<List<WardModel>> GetByLcdaAsync(string lcdaCode)
         {
-            var wards = await _context.Wards.Where(x => x.LcdaId == lcdaId).ToListAsync();
+            var wards = await _context.Wards.Where(x => x.LcdaCode == lcdaCode).ToListAsync();
             if (wards.Count < 1)
             {
                 return new List<WardModel>();

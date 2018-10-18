@@ -14,7 +14,7 @@ namespace Easeware.Remsng.Entities.Entities
         public long Id { get; set; }
         [Column(TypeName = "nvarchar(10)")]
         public string HouseNumber { get; set; }
-        public long StreetId { get; set; }
+        public string StreetCode { get; set; }
         public long OwnerId { get; set; }
 
         public Street Street { get; set; }

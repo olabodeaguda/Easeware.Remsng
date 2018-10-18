@@ -32,7 +32,7 @@ namespace Easeware.Remsng.Entities
             {
                 State state = new State()
                 {
-                    stateName = "Lagos State",
+                    StateName = "Lagos State",
                     stateCode = "LAG"
                 };
 

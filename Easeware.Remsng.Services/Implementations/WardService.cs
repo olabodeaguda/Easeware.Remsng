@@ -21,9 +21,9 @@ namespace Easeware.Remsng.Services.Implementations
             return _wardManager.AddAsync(wardModel);
         }
 
-        public Task<PageModel> GetAsync(PageModel pageModel, long lcdaId)
+        public Task<PageModel> GetAsync(PageModel pageModel, string lcdaCode)
         {
-            return _wardManager.GetAsync(pageModel, lcdaId);
+            return _wardManager.GetAsync(pageModel, lcdaCode);
         }
 
         public Task<WardModel> GetAsync(string wardName)
@@ -36,9 +36,9 @@ namespace Easeware.Remsng.Services.Implementations
             return _wardManager.GetByIdAsync(wardId);
         }
 
-        public Task<List<WardModel>> GetByLcdaAsync(long lcdaId)
+        public Task<List<WardModel>> GetByLcdaAsync(string lcdaCode)
         {
-            return _wardManager.GetByLcdaAsync(lcdaId);
+            return _wardManager.GetByLcdaAsync(lcdaCode);
         }
 
         public Task<long> LastId()

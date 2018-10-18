@@ -1,4 +1,5 @@
 ﻿using Easeware.Remsng.Common.Models;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -40,6 +41,7 @@ namespace Easeware.Remsng.Common.Utilities
             }
             catch (Exception ex)
             {
+                Log.Error(ex, "Connection to remote server failed");
                 return null;
             }
             finally

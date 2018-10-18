@@ -11,9 +11,12 @@ namespace Easeware.Remsng.Entities.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
-        public long countryId { get; set; }
-        public string stateCode { get; set; }
-        public string stateName { get; set; }
+        [Column(TypeName = "nvarchar(20)")]
+        public string CountryCode { get; set; }
+        [Column(TypeName = "nvarchar(20)")]
+        public string StateCode { get; set; }
+        [Column(TypeName = "nvarchar(250)")]
+        public string StateName { get; set; }
         public Country Country { get; set; }
 
         public ICollection<Lcda> Lcdas { get; set; }

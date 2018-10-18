@@ -60,14 +60,14 @@ namespace Easeware.Remsng.Data.Implementations
         {
             pageModel.PageNumber = pageModel.PageNumber < 1 ? 1 : pageModel.PageNumber;
             pageModel.PageSize = pageModel.PageSize < 1 ? 20 : pageModel.PageSize;
-            pageModel.TotalSize = await _remsDbContext.UserLcdas.CountAsync(x => x.LcdaId == Lcdaid);
+            pageModel.TotalSize = await _remsDbContext.UserLcdas.CountAsync(x => x.LcdaCode == Lcdaid);
             if (pageModel.TotalSize < 1)
             {
                 return pageModel;
             }
 
             var result = await _remsDbContext.UserLcdas.Include(x => x.User)
-                .Where(x => x.LcdaId == Lcdaid)
+                .Where(x => x.LcdaCode == Lcdaid)
                 .Select(x => x.User)
                 .Distinct().ToListAsync();
 

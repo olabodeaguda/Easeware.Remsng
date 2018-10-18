@@ -15,6 +15,6 @@ namespace Easeware.Remsng.Entities.Entities
         public string SectorCode { get; set; }
         [Column(TypeName = "nvarchar(100)")]
         public string SectorName { get; set; }
-        public long LcdaId { get; set; }
+        public string LcdaCode { get; set; }
     }
 }

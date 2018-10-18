@@ -24,19 +24,19 @@ namespace Easeware.Remsng.API.Controllers
             _codeGeneratorService = codeGeneratorService;
         }
 
-        [HttpGet("{lcdaId}/{pageNumber}/{pageSize}")]
-        public async Task<IActionResult> Get(long lcdaId, int pageNumber = 1, int pageSize = 20)
+        [HttpGet("{lcdaCode}/{pageNumber}/{pageSize}")]
+        public async Task<IActionResult> Get(string lcdaCode, int pageNumber = 1, int pageSize = 20)
         {
             PageModel pageModel = new PageModel()
             {
                 PageNumber = pageNumber < 1 ? 1 : pageNumber,
                 PageSize = pageSize < 1 ? 20 : pageSize
             };
-            if (lcdaId == default(long))
+            if (string.IsNullOrEmpty(lcdaCode))
             {
                 throw new BadRequestException("Lcda is required!!!");
             }
-            pageModel = await _wardService.GetAsync(pageModel, lcdaId);
+            pageModel = await _wardService.GetAsync(pageModel, lcdaCode);
             return Ok(pageModel);
         }
 

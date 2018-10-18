@@ -11,8 +11,8 @@ namespace Easeware.Remsng.Entities.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
-        public long CompanyId { get; set; }
-        public long AddressId { get; set; }
+        public string CompanyCode { get; set; }
+        public string AddressCode { get; set; }
         [Column(TypeName = "nvarchar(150)")]
         public string LastName { get; set; }
         [Column(TypeName = "nvarchar(150)")]

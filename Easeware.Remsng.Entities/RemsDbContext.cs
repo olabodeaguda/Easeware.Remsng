@@ -38,7 +38,7 @@ namespace Easeware.Remsng.Entities
                 .IsUnique(true);
 
             modelBuilder.Entity<State>()
-                .HasIndex(x => x.stateCode)
+                .HasIndex(x => x.StateCode)
                 .IsUnique(true);
 
             modelBuilder.Entity<Lcda>()
@@ -51,31 +51,35 @@ namespace Easeware.Remsng.Entities
                 .HasForeignKey(x => x.LcdaId);
 
             modelBuilder.Entity<UserLcda>()
-             .HasKey(ky => new { ky.LcdaId, ky.UserId });
+             .HasKey(ky => new { ky.LcdaCode, ky.UserEmail });
 
             modelBuilder.Entity<UserLcda>()
                 .HasOne(x => x.Lcda)
                 .WithMany(x => x.UserLcdas)
-                .HasForeignKey(x => x.LcdaId);
-
-            modelBuilder.Entity<UserLcda>()
-                .HasOne(x => x.User)
-                .WithMany(x => x.UserLcdas)
-                .HasForeignKey(x => x.UserId);
+                .HasForeignKey(x => x.LcdaCode);
 
             modelBuilder.Entity<User>()
                 .HasIndex(x => x.email)
                 .IsUnique();
 
+            modelBuilder.Entity<UserLcda>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.UserLcdas)
+                .HasForeignKey(x => x.UserEmail)
+                .HasPrincipalKey(x => x.email);
+
+
             modelBuilder.Entity<State>()
                 .HasOne(x => x.Country)
                 .WithMany(x => x.States)
-                .HasForeignKey(x => x.countryId);
+                .HasForeignKey(x => x.CountryCode)
+                .HasPrincipalKey(x => x.CountryCode);
 
             modelBuilder.Entity<Lcda>()
                 .HasOne(x => x.State)
                 .WithMany(x => x.Lcdas)
-                .HasForeignKey(x => x.StateId);
+                .HasForeignKey(x => x.StateCode)
+                .HasPrincipalKey(x => x.StateCode);
 
             modelBuilder.Entity<Ward>()
                 .HasIndex(x => x.WardCode)
@@ -84,7 +88,8 @@ namespace Easeware.Remsng.Entities
             modelBuilder.Entity<Ward>()
                 .HasOne(x => x.Lcda)
                 .WithMany(x => x.Wards)
-                .HasForeignKey(x => x.LcdaId);
+                .HasForeignKey(x => x.LcdaCode)
+                .HasPrincipalKey(x => x.LcdaCode);
 
             modelBuilder.Entity<Address>()
                 .HasIndex(x => x.HouseNumber);
@@ -92,31 +97,32 @@ namespace Easeware.Remsng.Entities
             modelBuilder.Entity<Address>()
                 .HasIndex(x => x.OwnerId);
 
+            modelBuilder.Entity<Street>()
+                .HasIndex(x => x.StreetCode)
+                .IsUnique();
+
             modelBuilder.Entity<Address>()
                 .HasOne(x => x.Street)
                 .WithMany(x => x.Addresses)
-                .HasForeignKey(x => x.StreetId);
+                .HasForeignKey(x => x.StreetCode)
+                .HasPrincipalKey(x => x.StreetCode);
 
             modelBuilder.Entity<Company>()
                 .HasIndex(x => x.CompanyCode)
                 .IsUnique();
 
-            //modelBuilder.Entity<Sector>()
-            //    .HasIndex(x => x.SectorCode)
-            //    .IsUnique();
-
             modelBuilder.Entity<Street>()
                 .HasOne(x => x.Ward)
                 .WithMany(x => x.Streets)
-                .HasForeignKey(x => x.WardId);
+                .HasForeignKey(x => x.WardCode)
+                .HasPrincipalKey(x => x.WardCode);
 
             modelBuilder.Entity<Taxpayer>()
-                .HasIndex(x => x.AddressId)
+                .HasIndex(x => x.AddressCode)
                 .IsUnique();
             modelBuilder.Entity<Taxpayer>()
-                .HasIndex(x => x.CompanyId)
+                .HasIndex(x => x.CompanyCode)
                 .IsUnique();
-
         }
     }
 }
