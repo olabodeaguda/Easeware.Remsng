@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Easeware.Remsng.Entities.Entities
+﻿namespace Easeware.Remsng.Entities.Entities
 {
     public class UserLcda
     {
@@ -10,5 +6,6 @@ namespace Easeware.Remsng.Entities.Entities
         public User User { get; set; }
         public string LcdaCode { get; set; }
         public Lcda Lcda { get; set; }
+        public string Status { get; set; }
     }
 }

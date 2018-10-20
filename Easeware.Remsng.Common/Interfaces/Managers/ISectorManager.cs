@@ -10,7 +10,7 @@ namespace Easeware.Remsng.Common.Interfaces.Managers
     {
         Task<ResponseModel> AddAsync(SectorModel sectorModel);
         Task<ResponseModel> UpdateAsync(SectorModel sectorModel);
-        Task<List<SectorModel>> GetAllAsync();
+        Task<List<SectorModel>> GetByLcdaAsync(string lcdaCode);
         Task<SectorModel> Get(long Id);
     }
 }

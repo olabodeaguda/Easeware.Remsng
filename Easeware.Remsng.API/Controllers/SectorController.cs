@@ -10,26 +10,24 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Easeware.Remsng.API.Controllers
 {
-    [Route("api/v2.0/sector")]
+    [ApiVersion("2.0")]
+    [Route("api/v{version:apiVersion}/sector")]
     [ModelValidation]
     public class SectorController : ControllerBase
     {
-        private ISectorService sectorService;
+        private ISectorService _sectorService;
         public SectorController(ISectorService sectorService)
         {
-
+            _sectorService = sectorService;
         }
 
         [HttpGet("{LcdaCode}")]
         public async Task<IActionResult> Get(string LcdaCode)
         {
-            if (string.IsNullOrEmpty(LcdaCode))
-            {
-                throw new BadRequestException("Lcda is required");
-            }
-
-            return Ok();
+            return Ok(await _sectorService.GetByLcdaAsync(LcdaCode));
         }
+
+
 
     }
 }

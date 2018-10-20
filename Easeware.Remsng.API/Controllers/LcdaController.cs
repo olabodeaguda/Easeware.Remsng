@@ -56,7 +56,7 @@ namespace Easeware.Remsng.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AssignLcdaToUser([FromBody]UserLcdaModel userLcdaModel)
         {
-            UserModel userModel = await _userService.Get(userLcdaModel.UserId);
+            UserModel userModel = await _userService.Get(userLcdaModel.UserEmail);
             if (userModel == null)
             {
                 throw new BadRequestException("User does not exist");
@@ -65,7 +65,7 @@ namespace Easeware.Remsng.API.Controllers
             {
                 throw new BadRequestException("User is not active");
             }
-            LcdaModel lcdaModel = await _lcdaService.Get(userLcdaModel.LcdaId);
+            LcdaModel lcdaModel = await _lcdaService.Get(userLcdaModel.LcdaCode);
             if (lcdaModel == null)
             {
                 throw new BadRequestException("Lcda does not exist");

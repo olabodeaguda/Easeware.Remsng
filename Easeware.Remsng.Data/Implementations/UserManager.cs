@@ -56,29 +56,29 @@ namespace Easeware.Remsng.Data.Implementations
             });
         }
 
-        public async Task<PageModel> Get(PageModel pageModel, long Lcdaid)
-        {
-            pageModel.PageNumber = pageModel.PageNumber < 1 ? 1 : pageModel.PageNumber;
-            pageModel.PageSize = pageModel.PageSize < 1 ? 20 : pageModel.PageSize;
-            pageModel.TotalSize = await _remsDbContext.UserLcdas.CountAsync(x => x.LcdaCode == Lcdaid);
-            if (pageModel.TotalSize < 1)
-            {
-                return pageModel;
-            }
+        //public async Task<PageModel> Get(PageModel pageModel, string LcdaCode)
+        //{
+        //    pageModel.PageNumber = pageModel.PageNumber < 1 ? 1 : pageModel.PageNumber;
+        //    pageModel.PageSize = pageModel.PageSize < 1 ? 20 : pageModel.PageSize;
+        //    pageModel.TotalSize = await _remsDbContext.UserLcdas.CountAsync(x => x.LcdaCode == LcdaCode);
+        //    if (pageModel.TotalSize < 1)
+        //    {
+        //        return pageModel;
+        //    }
 
-            var result = await _remsDbContext.UserLcdas.Include(x => x.User)
-                .Where(x => x.LcdaCode == Lcdaid)
-                .Select(x => x.User)
-                .Distinct().ToListAsync();
+        //    var result = await _remsDbContext.UserLcdas.Include(x => x.User)
+        //        .Where(x => x.LcdaCode == LcdaCode)
+        //        .Select(x => x.User)
+        //        .Distinct().ToListAsync();
 
-            var r = result.OrderByDescending(x => x.CreatedDate)
-                .Skip((pageModel.PageNumber - 1) * pageModel.PageSize).
-                Take(pageModel.PageSize).Select(x => _mapper
-                .Map<UserModel>(x)).ToArray();
+        //    var r = result.OrderByDescending(x => x.CreatedDate)
+        //        .Skip((pageModel.PageNumber - 1) * pageModel.PageSize).
+        //        Take(pageModel.PageSize).Select(x => _mapper
+        //        .Map<UserModel>(x)).ToArray();
 
-            pageModel.Data = r.Count() > 0 ? r : new UserModel[0];
-            return pageModel;
-        }
+        //    pageModel.Data = r.Count() > 0 ? r : new UserModel[0];
+        //    return pageModel;
+        //}
 
         public async Task<PageModel> Get(PageModel pageModel, string lcdaCode)
         {

@@ -33,11 +33,6 @@ namespace Easeware.Remsng.Services.Implementations
             return _userManager.Get(id);
         }
 
-        public Task<PageModel> Get(PageModel pageModel, long Lcdaid)
-        {
-            return _userManager.Get(pageModel, Lcdaid);
-        }
-
         public Task<PageModel> Get(PageModel pageModel, string lcdaCode)
         {
             return _userManager.Get(pageModel, lcdaCode);
@@ -51,5 +46,8 @@ namespace Easeware.Remsng.Services.Implementations
         {
             return _userManager.ChangePassword(uModel);
         }
+
+
+
     }
 }

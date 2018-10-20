@@ -31,7 +31,7 @@ namespace Easeware.Remsng.Data.Implementations
         public async Task<UserLcdaModel> Get(UserLcdaModel userLcdaModel)
         {
             UserLcda userLcda = await _remsDbContext.UserLcdas
-                .FirstOrDefaultAsync(x => x.UserId == userLcdaModel.UserId && x.LcdaCode == userLcdaModel.LcdaId);
+                .FirstOrDefaultAsync(x => x.UserEmail == userLcdaModel.UserEmail && x.LcdaCode == userLcdaModel.LcdaCode);
             if (userLcda == null)
             {
                 return null;

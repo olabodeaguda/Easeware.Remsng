@@ -8,7 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Easeware.Remsng.API.Controllers
 {
-    [Route("api/[controller]")]
+    [ApiVersion("2.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
     {

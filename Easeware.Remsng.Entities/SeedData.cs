@@ -28,12 +28,12 @@ namespace Easeware.Remsng.Entities
             }
 
             var stats = context.States.ToList();
-            if (!stats.Any(x => x.stateCode == "LAG"))
+            if (!stats.Any(x => x.StateCode == "LAG"))
             {
                 State state = new State()
                 {
                     StateName = "Lagos State",
-                    stateCode = "LAG"
+                    StateCode = "LAG"
                 };
 
                 if (ctry == null)

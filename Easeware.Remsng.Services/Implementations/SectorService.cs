@@ -1,4 +1,5 @@
-﻿using Easeware.Remsng.Common.Interfaces.Managers;
+﻿using Easeware.Remsng.Common.Exceptions;
+using Easeware.Remsng.Common.Interfaces.Managers;
 using Easeware.Remsng.Common.Interfaces.Services;
 using Easeware.Remsng.Common.Models;
 using System;
@@ -25,9 +26,14 @@ namespace Easeware.Remsng.Services.Implementations
             return _sectorManager.Get(Id);
         }
 
-        public Task<List<SectorModel>> GetAllAsync()
+        public Task<List<SectorModel>> GetByLcdaAsync(string lcdaCode)
         {
-            return _sectorManager.GetAllAsync();
+            if (string.IsNullOrEmpty(lcdaCode))
+            {
+                throw new BadRequestException("Lcda is required");
+            }
+
+            return _sectorManager.GetByLcdaAsync(lcdaCode);
         }
 
         public Task<ResponseModel> UpdateAsync(SectorModel sectorModel)

@@ -55,7 +55,7 @@ namespace Easeware.Remsng.Data.Implementations
             return _mapper.Map<SectorModel>(sector);
         }
 
-        public async Task<List<SectorModel>> GetAllAsync()
+        public async Task<List<SectorModel>> GetByLcdaAsync(string lcdaCode)
         {
             List<Sector> sectors = await _context.Sectors.OrderBy(x => x.SectorName).ToListAsync();
 

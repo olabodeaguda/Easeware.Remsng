@@ -11,7 +11,7 @@ namespace Easeware.Remsng.Common.Interfaces.Managers
         Task<bool> Add(UserModel userModel);
         Task<UserModel> Get(string email);
         Task<UserModel> Get(long id);
-        Task<PageModel> Get(PageModel pageModel, long Lcdaid);
+        //Task<PageModel> Get(PageModel pageModel, long Lcdaid);
         Task<PageModel> Get(PageModel pageModel, string lcdaCode);
         Task<bool> UpdateStatus(UserModel userModel);
         Task<bool> ChangePassword(UserModel uModel);
