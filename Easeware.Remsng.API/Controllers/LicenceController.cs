@@ -12,7 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Easeware.Remsng.API.Controllers
 {
-    [Route("api/v2.0/license")]
+    [ApiVersion("2.0")]
+    [Route("api/v{version:apiVersion}/license")]
     [ApiController]
     public class LicenceController : ControllerBase
     {

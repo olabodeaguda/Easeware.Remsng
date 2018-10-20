@@ -12,7 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Easeware.Remsng.API.Controllers
 {
-    [Route("api/v2.0/ward")]
+    [ApiVersion("2.0")]
+    [Route("api/v{version:apiVersion}/ward")]
     [ApiController]
     public class WardController : ControllerBase
     {

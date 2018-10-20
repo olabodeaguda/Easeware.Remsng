@@ -12,7 +12,8 @@ using Microsoft.Extensions.Configuration;
 namespace Easeware.Remsng.API.Controllers
 {
     [ModelValidation]
-    [Route("api/v2.0/user")]
+    [ApiVersion("2.0")]
+    [Route("api/v{version:apiVersion}/user")]
     public class UserController : ControllerBase
     {
         private IEmailService _emailService;

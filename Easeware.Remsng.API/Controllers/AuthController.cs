@@ -14,7 +14,8 @@ using System.Threading.Tasks;
 namespace Easeware.Remsng.API.Controllers
 {
     [ModelValidation]
-    [Route("api/v2.0/auth")]
+    [ApiVersion("2.0")]
+    [Route("api/v{version:apiVersion}/auth")]
     public class AuthController : ControllerBase
     {
         private IEmailService _emailService;
