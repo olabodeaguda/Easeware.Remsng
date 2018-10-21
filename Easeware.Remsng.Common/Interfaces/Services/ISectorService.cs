@@ -12,5 +12,6 @@ namespace Easeware.Remsng.Common.Interfaces.Services
         Task<ResponseModel> UpdateAsync(SectorModel sectorModel);
         Task<List<SectorModel>> GetByLcdaAsync(string lcdaCode);
         Task<SectorModel> Get(long Id);
+        Task<ResponseModel> Delete(long id);
     }
 }

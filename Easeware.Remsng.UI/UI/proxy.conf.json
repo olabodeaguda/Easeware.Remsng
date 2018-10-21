@@ -1,0 +1,10 @@
+{
+    "/api": {
+      "target": "http://40.118.15.190:8085",
+      "secure": false,
+      "pathRewrite": {
+        "^/api": "/api"
+      },
+      "logLevel": "debug"
+    }
+  }

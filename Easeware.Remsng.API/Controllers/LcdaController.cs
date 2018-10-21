@@ -45,7 +45,7 @@ namespace Easeware.Remsng.API.Controllers
                 LcdaModel lModel = await _lcdaService.Get(lcdaModel.LcdaCode);
                 return Ok(new ResponseModel()
                 {
-                    code = ResponseCode.SUCCESSFULL,
+                    code = ResponseCode.SUCCESSFUL,
                     data = lModel.Id,
                     description = $"{lcdaModel.LcdaName} has been created successfully"
                 });
@@ -87,7 +87,7 @@ namespace Easeware.Remsng.API.Controllers
             {
                 return Ok(new ResponseModel()
                 {
-                    code = ResponseCode.SUCCESSFULL,
+                    code = ResponseCode.SUCCESSFUL,
                     description = "User has been added to the LCDA successfully"
                 });
             }

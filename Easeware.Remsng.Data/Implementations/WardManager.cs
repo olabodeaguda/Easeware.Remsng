@@ -33,7 +33,7 @@ namespace Easeware.Remsng.Data.Implementations
             {
                 return new ResponseModel()
                 {
-                    code = ResponseCode.SUCCESSFULL,
+                    code = ResponseCode.SUCCESSFUL,
                     description = $"{wardModel.WardName} has been updated successfully"
                 };
             }
@@ -126,7 +126,7 @@ namespace Easeware.Remsng.Data.Implementations
             {
                 return new ResponseModel()
                 {
-                    code = ResponseCode.SUCCESSFULL,
+                    code = ResponseCode.SUCCESSFUL,
                     description = "Update is successful"
                 };
             }
@@ -157,7 +157,7 @@ namespace Easeware.Remsng.Data.Implementations
             {
                 return new ResponseModel()
                 {
-                    code = ResponseCode.SUCCESSFULL,
+                    code = ResponseCode.SUCCESSFUL,
                     description = $"{wardModel.WardName} has been updated successfully"
                 };
             }

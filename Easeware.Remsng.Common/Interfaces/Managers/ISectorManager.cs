@@ -8,9 +8,11 @@ namespace Easeware.Remsng.Common.Interfaces.Managers
 {
     public interface ISectorManager
     {
-        Task<ResponseModel> AddAsync(SectorModel sectorModel);
+        Task<int> AddAsync(SectorModel sectorModel);
         Task<ResponseModel> UpdateAsync(SectorModel sectorModel);
-        Task<List<SectorModel>> GetByLcdaAsync(string lcdaCode);
+        Task<List<SectorModel>> Get(string lcdaCode);
+        Task<SectorModel> Get(string lcdaCode, string sectorCode);
         Task<SectorModel> Get(long Id);
+        Task<int> Delete(SectorModel sectorModel);
     }
 }

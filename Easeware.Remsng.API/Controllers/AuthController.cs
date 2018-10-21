@@ -158,7 +158,7 @@ namespace Easeware.Remsng.API.Controllers
 
             return Ok(new ResponseModel()
             {
-                code = ResponseCode.SUCCESSFULL,
+                code = ResponseCode.SUCCESSFUL,
                 description = $"Please follow the link sent to your mail for password reset"
             });
         }
@@ -205,7 +205,7 @@ namespace Easeware.Remsng.API.Controllers
             {
                 return Ok(new ResponseModel()
                 {
-                    code = ResponseCode.SUCCESSFULL,
+                    code = ResponseCode.SUCCESSFUL,
                     description = "Password change request was successful"
                 });
             }

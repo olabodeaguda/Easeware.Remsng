@@ -54,7 +54,7 @@ namespace Easeware.Remsng.API.Controllers
 
             ResponseModel responseModel = await _wardService.AddAsync(wardModel);
 
-            if (responseModel.code == ResponseCode.SUCCESSFULL)
+            if (responseModel.code == ResponseCode.SUCCESSFUL)
             {
                 return Ok(responseModel);
             }
@@ -85,7 +85,7 @@ namespace Easeware.Remsng.API.Controllers
 
             wardModel.Id = id;
             ResponseModel responseModel = await _wardService.UpdateAsync(wardModel);
-            if (responseModel.code == ResponseCode.SUCCESSFULL)
+            if (responseModel.code == ResponseCode.SUCCESSFUL)
             {
                 return Ok(responseModel);
             }
@@ -117,7 +117,7 @@ namespace Easeware.Remsng.API.Controllers
             wModel.Id = id;
             wModel.Status = WardStatus.NOT_ACTIVE;
             ResponseModel responseModel = await _wardService.UpdateStatusAsync(wModel);
-            if (responseModel.code == ResponseCode.SUCCESSFULL)
+            if (responseModel.code == ResponseCode.SUCCESSFUL)
             {
                 return Ok(responseModel);
             }
@@ -149,7 +149,7 @@ namespace Easeware.Remsng.API.Controllers
             wModel.Id = id;
             wModel.Status = WardStatus.ACTIVE;
             ResponseModel responseModel = await _wardService.UpdateStatusAsync(wModel);
-            if (responseModel.code == ResponseCode.SUCCESSFULL)
+            if (responseModel.code == ResponseCode.SUCCESSFUL)
             {
                 return Ok(responseModel);
             }

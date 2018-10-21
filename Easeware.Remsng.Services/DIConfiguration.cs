@@ -2,6 +2,7 @@
 using Easeware.Remsng.Common.Models;
 using Easeware.Remsng.Data;
 using Easeware.Remsng.Services.Implementations;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -17,6 +18,7 @@ namespace Easeware.Remsng.Services
         {
             services.InitializeData(Configuration);
             services.AddSingleton<IConfiguration>(Configuration);
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<EmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
             services.AddSingleton<JwtConfiguration>(Configuration.GetSection("JwtConfiguration").Get<JwtConfiguration>());
             services.AddTransient<IEmailService, EmailService>();

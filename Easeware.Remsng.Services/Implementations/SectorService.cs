@@ -1,7 +1,10 @@
-﻿using Easeware.Remsng.Common.Exceptions;
+﻿using Easeware.Remsng.Common.Enums;
+using Easeware.Remsng.Common.Exceptions;
 using Easeware.Remsng.Common.Interfaces.Managers;
 using Easeware.Remsng.Common.Interfaces.Services;
 using Easeware.Remsng.Common.Models;
+using Easeware.Remsng.Common.Utilities;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,14 +14,74 @@ namespace Easeware.Remsng.Services.Implementations
 {
     public class SectorService : ISectorService
     {
+        private readonly IHttpContextAccessor _contextAccessor;
         private ISectorManager _sectorManager;
-        public SectorService(ISectorManager sectorManager)
+        public SectorService(ISectorManager sectorManager, IHttpContextAccessor contextAccessor)
         {
             _sectorManager = sectorManager;
+            _contextAccessor = contextAccessor;
         }
-        public Task<ResponseModel> AddAsync(SectorModel sectorModel)
+        public async Task<ResponseModel> AddAsync(SectorModel sectorModel)
         {
-            return _sectorManager.AddAsync(sectorModel);
+            SectorModel sModel = await _sectorManager.Get(sectorModel.LcdaCode, sectorModel.SectorCode);
+            if (sModel != null)
+            {
+                throw new BadRequestException("Sector already exist");
+            }
+            sectorModel.SectorStatus = SectorStatus.ACTIVE;
+            sectorModel.CreatedBy = _contextAccessor.HttpContext.User.Identity.Name;
+            int count = await _sectorManager.AddAsync(sectorModel);
+            if (count > 0)
+            {
+                return new ResponseModel()
+                {
+                    code = ResponseCode.SUCCESSFUL,
+                    description = $"{sectorModel.SectorName} sector has been added successfully"
+                };
+            }
+
+            return new ResponseModel()
+            {
+                code = ResponseCode.FAIL,
+                description = $"An error occur while trying to create sector. " +
+                $"Please try again or contact an administrator if error persist"
+            };
+        }
+
+        public async Task<ResponseModel> Delete(long id)
+        {
+            if (id == default(long))
+            {
+                throw new BadRequestException("Url is in the wrong format");
+            }
+            SectorModel sectorModel = await _sectorManager.Get(id);
+            if (sectorModel == null)
+            {
+                return new ResponseModel()
+                {
+                    code = ResponseCode.NOTFOUND,
+                    description = "Sector can not be found"
+                };
+            }
+
+            sectorModel.ModifiedBy = _contextAccessor.HttpContext.User.Identity.Name;
+            int count = await _sectorManager.Delete(sectorModel);
+            if (count > 0)
+            {
+                return new ResponseModel()
+                {
+                    code = ResponseCode.SUCCESSFUL,
+                    description = $"{sectorModel.SectorName} has been deleted successfully"
+                };
+            }
+            else
+            {
+                return new ResponseModel()
+                {
+                    code = ResponseCode.FAIL,
+                    description = $"{sectorModel.SectorName} has been deleted successfully"
+                };
+            }
         }
 
         public Task<SectorModel> Get(long Id)
@@ -33,12 +96,22 @@ namespace Easeware.Remsng.Services.Implementations
                 throw new BadRequestException("Lcda is required");
             }
 
-            return _sectorManager.GetByLcdaAsync(lcdaCode);
+            return _sectorManager.Get(lcdaCode);
         }
 
-        public Task<ResponseModel> UpdateAsync(SectorModel sectorModel)
+        public async Task<ResponseModel> UpdateAsync(SectorModel sectorModel)
         {
-            return _sectorManager.UpdateAsync(sectorModel);
+            ResponseModel responseModel = await _sectorManager.UpdateAsync(sectorModel);
+            if (responseModel.code == ResponseCode.NOTFOUND)
+            {
+                throw new NotFoundException(responseModel.description);
+            }
+            else if (responseModel.code != ResponseCode.SUCCESSFUL)
+            {
+                throw new BadRequestException(responseModel.description);
+            }
+
+            return responseModel;
         }
     }
 }

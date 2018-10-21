@@ -48,7 +48,7 @@ namespace Easeware.Remsng.API.Controllers
             string lc = _licenceService.Encrypt(licenceModel);
             return Ok(new ResponseModel()
             {
-                code = ResponseCode.SUCCESSFULL,
+                code = ResponseCode.SUCCESSFUL,
                 description = "Code has successfully been created",
                 data = lc
             });

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Easeware.Remsng.Common.Enums;
 using Easeware.Remsng.Common.Interfaces.Managers;
 using Easeware.Remsng.Common.Models;
 using Easeware.Remsng.Common.Utilities;
@@ -22,27 +23,22 @@ namespace Easeware.Remsng.Data.Implementations
             _context = context;
             _mapper = mapper;
         }
-        public async Task<ResponseModel> AddAsync(SectorModel sectorModel)
+        public async Task<int> AddAsync(SectorModel sectorModel)
         {
             Sector sector = _mapper.Map<Sector>(sectorModel);
             _context.Sectors.Add(sector);
             int count = await _context.SaveChangesAsync();
-            if (count > 0)
-            {
-                return new ResponseModel()
-                {
-                    code = ResponseCode.SUCCESSFULL,
-                    description = $"{sectorModel.SectorName} sector has been added successfully",
-                    data = sector.Id
-                };
-            }
+            return count;
+        }
 
-            return new ResponseModel()
-            {
-                code = ResponseCode.FAIL,
-                description = $"An error occur while trying to create sector. " +
-                $"Please try again or contact an administrator if error persist"
-            };
+        public async Task<int> Delete(SectorModel sectorModel)
+        {
+            Sector sector = await _context.Sectors.FindAsync(sectorModel.Id);
+            sector.SectorStatus = SectorStatus.DELETED.ToString();
+            sector.ModifiedBy = sectorModel.ModifiedBy;
+            sector.ModifiedDate = DateTimeOffset.Now;
+            int count = await _context.SaveChangesAsync();
+            return count;
         }
 
         public async Task<SectorModel> Get(long Id)
@@ -55,7 +51,7 @@ namespace Easeware.Remsng.Data.Implementations
             return _mapper.Map<SectorModel>(sector);
         }
 
-        public async Task<List<SectorModel>> GetByLcdaAsync(string lcdaCode)
+        public async Task<List<SectorModel>> Get(string lcdaCode)
         {
             List<Sector> sectors = await _context.Sectors.OrderBy(x => x.SectorName).ToListAsync();
 
@@ -65,6 +61,17 @@ namespace Easeware.Remsng.Data.Implementations
             }
 
             return sectors.Select(x => _mapper.Map<SectorModel>(x)).ToList();
+        }
+
+        public async Task<SectorModel> Get(string lcdaCode, string sectorCode)
+        {
+            Sector sector = await _context.Sectors.FirstOrDefaultAsync(x => x.LcdaCode == lcdaCode && x.SectorCode == sectorCode);
+            if (sector == null)
+            {
+                return null;
+            }
+
+            return _mapper.Map<SectorModel>(sector);
         }
 
         public async Task<ResponseModel> UpdateAsync(SectorModel sectorModel)
@@ -87,7 +94,7 @@ namespace Easeware.Remsng.Data.Implementations
             {
                 return new ResponseModel()
                 {
-                    code = ResponseCode.SUCCESSFULL,
+                    code = ResponseCode.SUCCESSFUL,
                     description = $"{sectorModel.SectorName} has been updated successfully"
                 };
             }
@@ -99,6 +106,6 @@ namespace Easeware.Remsng.Data.Implementations
             };
         }
 
-       
+
     }
 }

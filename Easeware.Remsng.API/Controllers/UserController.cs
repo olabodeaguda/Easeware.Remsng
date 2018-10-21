@@ -106,7 +106,7 @@ namespace Easeware.Remsng.API.Controllers
                 }
                 return Ok(new ResponseModel()
                 {
-                    code = ResponseCode.SUCCESSFULL,
+                    code = ResponseCode.SUCCESSFUL,
                     description = $"{userModel.email} has been created successfully",
                     data = umm.id
                 });
@@ -147,7 +147,7 @@ namespace Easeware.Remsng.API.Controllers
                 await _verificationService.InValidateCode(vcode, id.ToString());
                 return Ok(new ResponseModel()
                 {
-                    code = ResponseCode.SUCCESSFULL,
+                    code = ResponseCode.SUCCESSFUL,
                     description = "Verification is successful"
                 });
             }

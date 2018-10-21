@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Easeware.Remsng.Common.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace Easeware.Remsng.Entities.Entities
 {
-    public class Sector
+    public class Sector : BaseModel
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -16,5 +17,6 @@ namespace Easeware.Remsng.Entities.Entities
         [Column(TypeName = "nvarchar(100)")]
         public string SectorName { get; set; }
         public string LcdaCode { get; set; }
+        public string SectorStatus { get; set; }
     }
 }
