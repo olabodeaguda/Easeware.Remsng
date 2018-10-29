@@ -16,6 +16,8 @@ namespace Easeware.Remsng.Entities.Entities
         public string CompanyName { get; set; }
         [Column(TypeName = "nvarchar(20)")]
         public string CompanyCode { get; set; }
+        [Column(TypeName = "nvarchar(20)")]
+        public string LcdaCode { get; set; }
         public string Status { get; set; }
     }
 }

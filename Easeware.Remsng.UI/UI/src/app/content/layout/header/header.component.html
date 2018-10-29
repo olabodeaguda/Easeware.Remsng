@@ -12,7 +12,6 @@
 	<div class="m-header__bottom">
 		<div class="m-page__container" [ngClass]="headerService.containerClass">
 			<div class="m-stack m-stack--ver m-stack--desktop">
-				<!-- BEGIN: Horizontal Menu -->
 				<ng-container *ngIf="headerService.menuHeaderDisplay">
 					<!-- show/hide horizontal menu based on menu.header.display option -->
 					<button class="m-aside-header-menu-mobile-close" id="m_aside_header_menu_mobile_close_btn" [ngClass]="headerService.headerMenuCloseClass">
@@ -26,3 +25,4 @@
 	</div>
 </header>
 <!-- END: Header -->
+

@@ -21,6 +21,7 @@ namespace Easeware.Remsng.Data
             services.AddTransient<IVerificationManager, VerificationManager>();
             services.AddTransient<IWardManager, WardManager>();
             services.AddTransient<ISectorManager, SectorManager>();
+            services.AddTransient<ICompanyManager, CompanyManager>();
         }
     }
 }

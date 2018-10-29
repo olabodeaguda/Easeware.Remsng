@@ -40,6 +40,7 @@
 				<ng-container [ngTemplateOutlet]="m_menu_item_inner" [ngTemplateOutletContext]="{ item: item, parentItem: parentItem }"></ng-container>
 			</a>
 		</ng-container>
+		
 
 		<!-- if menu item has submenu child then recursively call new menu item component -->
 		<ng-container *ngIf="item.submenu">
