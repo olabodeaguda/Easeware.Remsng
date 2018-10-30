@@ -42,8 +42,6 @@ namespace Easeware.Remsng.API.Controllers
             //validate existence of the lcda
             //call license table for existence of valid license key for lcda
 
-
-
             licenceModel.ValidTimeSpan = dateTime.Value.Ticks;
             string lc = _licenceService.Encrypt(licenceModel);
             return Ok(new ResponseModel()

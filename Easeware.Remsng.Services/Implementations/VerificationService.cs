@@ -17,6 +17,8 @@ namespace Easeware.Remsng.Services.Implementations
         }
         public async Task<bool> Add(VerificationDetailModel verificationDetailModel)
         {
+
+
             return await _verificationManager.Add(verificationDetailModel);
         }
 

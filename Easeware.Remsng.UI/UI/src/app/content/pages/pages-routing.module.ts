@@ -44,7 +44,7 @@ const routes: Routes = [
 	},
 	{
 		path: 'login',
-		canActivate: [NgxPermissionsGuard],
+		//canActivate: [NgxPermissionsGuard],
 		loadChildren: './auth/auth.module#AuthModule',
 		data: {
 			permissions: {

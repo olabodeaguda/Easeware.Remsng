@@ -19,6 +19,9 @@ namespace Easeware.Remsng.Services.Implementations
         }
         public Task<bool> Add(UserModel userModel)
         {
+
+
+
             userModel.passwordHash = _encryptionService.Encrypt(userModel.Password);
             return _userManager.Add(userModel);
         }
