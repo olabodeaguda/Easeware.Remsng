@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Easeware.Remsng.API.Controllers
 {
-    [ModelValidation]
+    //[ModelValidation]
     [ApiVersion("2.0")]
     [Route("api/v{version:apiVersion}/lcda")]
     public class LcdaController : ControllerBase

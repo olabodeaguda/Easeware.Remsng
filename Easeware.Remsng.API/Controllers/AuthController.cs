@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Easeware.Remsng.API.Controllers
 {
-    [ModelValidation]
+    //[ModelValidation]
     [ApiVersion("2.0")]
     [Route("api/v{version:apiVersion}/auth")]
     public class AuthController : ControllerBase

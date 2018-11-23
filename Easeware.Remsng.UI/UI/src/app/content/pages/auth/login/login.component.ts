@@ -25,7 +25,7 @@ import { SpinnerButtonOptions } from '../../../partials/content/general/spinner-
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent implements OnInit, OnDestroy {
-	public model: any = { email: 'admin@demo.com', password: 'demo' };
+	public model: any = { email: '', password: '' };
 	@HostBinding('class') classes: string = 'm-login__signin';
 	@Output() actionChange = new Subject<string>();
 	public loading = false;

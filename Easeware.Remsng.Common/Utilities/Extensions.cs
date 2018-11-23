@@ -1,7 +1,5 @@
 ﻿using Easeware.Remsng.Common.Models;
-using Serilog;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -39,9 +37,9 @@ namespace Easeware.Remsng.Common.Utilities
                     fileName = string.IsNullOrEmpty(fileTitle) ? url.GetFileName() ?? $"attachment {DateTime.Now.ToString("HH:mm:ss")}" : fileTitle
                 };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Log.Error(ex, "Connection to remote server failed");
+                //Log.Error(ex, "Connection to remote server failed");
                 return null;
             }
             finally
@@ -57,18 +55,15 @@ namespace Easeware.Remsng.Common.Utilities
             {
                 return null;
             }
-            int dd = 0;
-            int mm = 0;
-            int yyyy = 0;
-            if (!int.TryParse(sts[0], out dd))
+            if (!int.TryParse(sts[0], out int dd))
             {
                 return null;
             }
-            if (!int.TryParse(sts[1], out mm))
+            if (!int.TryParse(sts[1], out int mm))
             {
                 return null;
             }
-            if (!int.TryParse(sts[2], out yyyy))
+            if (!int.TryParse(sts[2], out int yyyy))
             {
                 return null;
             }
@@ -111,8 +106,7 @@ namespace Easeware.Remsng.Common.Utilities
             {
                 return false;
             }
-            long ticks;
-            if (!long.TryParse(dd[1], out ticks))
+            if (!long.TryParse(dd[1], out long ticks))
             {
                 return false;
             }
@@ -129,5 +123,7 @@ namespace Easeware.Remsng.Common.Utilities
             string idString = (id + 1) > 9 ? (id + 1).ToString() : "0" + (id + 1);
             return $"REMS-{idString}";
         }
+
+
     }
 }

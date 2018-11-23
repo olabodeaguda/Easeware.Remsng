@@ -78,6 +78,7 @@ namespace Easeware.Remsng.Services.Implementations
             {
                 throw new BadRequestException("Lcda is required");
             }
+            return null;
         }
 
         public Task<ResponseModel> UpdateAsyc(CompanyModel companyModel)

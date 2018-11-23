@@ -19,7 +19,8 @@ namespace Easeware.Remsng.API.Controllers
     {
         private readonly IWardService _wardService;
         private readonly ICodeGeneratorService _codeGeneratorService;
-        public WardController(IWardService wardService, ICodeGeneratorService codeGeneratorService)
+        public WardController(IWardService wardService, 
+            ICodeGeneratorService codeGeneratorService)
         {
             _wardService = wardService;
             _codeGeneratorService = codeGeneratorService;
