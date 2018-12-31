@@ -2,10 +2,9 @@
 {
     public class UserLcda
     {
-        public string UserEmail { get; set; }
         public User User { get; set; }
-        public string LcdaCode { get; set; }
         public Lcda Lcda { get; set; }
-        public string Status { get; set; }
+        public long UserId { get; set; }
+        public long LcdaId { get; set; }
     }
 }

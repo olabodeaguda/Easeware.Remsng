@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
 using Easeware.Remsng.Common.Models;
-using Easeware.Remsng.Data;
 using Easeware.Remsng.Entities.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Easeware.Remsng.Entities
 {
@@ -14,7 +10,9 @@ namespace Easeware.Remsng.Entities
         {
             CreateMap<LcdaModel, Lcda>().ReverseMap();
             CreateMap<VerificationDetailModel, VerificationDetail>(MemberList.None).ReverseMap();
-            CreateMap<UserModel, User>(MemberList.None).ReverseMap();
+            CreateMap<UserModel, User>(MemberList.None).ReverseMap()
+                .ForMember(c => c.ConfirmPassword, c => c.Ignore())
+                .ForMember(c => c.Password, c => c.Ignore());
             CreateMap<UserLcdaModel, UserLcda>(MemberList.None).ReverseMap();
             CreateMap<WardModel, Ward>(MemberList.None).ReverseMap();
             CreateMap<SectorModel, Sector>(MemberList.None).ReverseMap();

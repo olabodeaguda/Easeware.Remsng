@@ -2,18 +2,16 @@
 using Easeware.Remsng.Common.Models;
 using Easeware.Remsng.Common.Utilities;
 using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 
 namespace Easeware.Remsng.API.Utilities
 {
     public static class ExceptionHandler
     {
-        public static string Get(this HttpContext context, Exception ex)
+        public static ResponseModel Get(this HttpContext context, Exception ex)
         {
             ResponseModel responseModel = new ResponseModel();
             if (ex.GetType() == typeof(BadRequestException))
@@ -27,6 +25,12 @@ namespace Easeware.Remsng.API.Utilities
                 responseModel.description = ex.Message;
                 responseModel.code = ResponseCode.MODEL_VALIDATION;
                 context.Response.StatusCode = (int)HttpStatusCode.BadGateway;
+            }
+            else if (ex.GetType() == typeof(SecurityTokenExpiredException))
+            {
+                responseModel.description = "Login validation expired";
+                responseModel.code = ResponseCode.TOKEN_EXPIRED;
+                context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
             }
             else if (ex.GetType() == typeof(UnknownException))
             {
@@ -62,8 +66,7 @@ namespace Easeware.Remsng.API.Utilities
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             }
 
-            return JsonConvert.SerializeObject(responseModel,
-               new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
+            return responseModel;
         }
     }
 }

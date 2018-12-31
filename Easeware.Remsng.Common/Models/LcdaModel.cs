@@ -10,14 +10,13 @@ namespace Easeware.Remsng.Common.Models
     {
         public LcdaModel()
         {
-            Licenses = new List<RemsLicenceModel>();
         }
         public long Id { get; set; }
         public string LcdaCode { get; set; }
         [Required(ErrorMessage = "Lcda Name is required!!!")]
         public string LcdaName { get; set; }
         public LcdaStatus LcdaStatus { get; set; } = LcdaStatus.ACTIVE;
-        public List<RemsLicenceModel> Licenses { get; set; }
-        public ICollection<UserLcdaModel> UserLcdas { get; set; }
+        public ICollection<RemsLicenceModel> Licenses { get; set; } = new List<RemsLicenceModel>();
+        public ICollection<UserLcdaModel> UserLcdas { get; set; } = new List<UserLcdaModel>();
     }
 }

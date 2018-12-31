@@ -1,19 +1,15 @@
 ﻿using Easeware.Remsng.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Easeware.Remsng.Common.Interfaces.Managers
 {
     public interface IUserManager
     {
-        Task<bool> Add(UserModel userModel);
-        Task<UserModel> Get(string email);
-        Task<UserModel> Get(long id);
-        //Task<PageModel> Get(PageModel pageModel, long Lcdaid);
-        Task<PageModel> Get(PageModel pageModel, string lcdaCode);
-        Task<bool> UpdateStatus(UserModel userModel);
-        Task<bool> ChangePassword(UserModel uModel);
+        Task<LoginResponseModel> Authenticate(LoginRequestModel loginRequestModel);
+        Task<LoginResponseModel> RefreshToken(string refreshtoken);
+        Task<bool> InitiateChangePwd(string username);
+        Task<bool> CompleteChangePwd(string verificationCode,
+            ChangePasswordModel changePasswordModel);
+        Task<UserModel> CreateUser(UserModel userModel);
     }
 }

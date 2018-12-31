@@ -1,98 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Easeware.Remsng.API.Utilities;
-using Easeware.Remsng.Common.Enums;
+﻿using Easeware.Remsng.Common.Enums;
 using Easeware.Remsng.Common.Exceptions;
+using Easeware.Remsng.Common.Interfaces.Managers;
 using Easeware.Remsng.Common.Interfaces.Services;
 using Easeware.Remsng.Common.Models;
 using Easeware.Remsng.Common.Utilities;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Easeware.Remsng.API.Controllers
 {
-    //[ModelValidation]
     [ApiVersion("2.0")]
     [Route("api/v{version:apiVersion}/lcda")]
     public class LcdaController : ControllerBase
     {
-        private readonly IUserService _userService;
-        private readonly ILcdaService _lcdaService;
-        private readonly ICodeGeneratorService _codeGenerationService;
-        private readonly IUserLcdaService _userLcdaService;
-        public LcdaController(ILcdaService lcdaService,
-            ICodeGeneratorService codeGeneratorService,
-            IUserService userService,
-            IUserLcdaService userLcdaService)
+        private readonly ILcdaManager _lcdaManager;
+        public LcdaController(ILcdaManager lcdaManager)
         {
-            _lcdaService = lcdaService;
-            _codeGenerationService = codeGeneratorService;
-            _userService = userService;
-            _userLcdaService = userLcdaService;
+            _lcdaManager = lcdaManager;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] LcdaModel lcdaModel)
         {
-            long lastId = await _lcdaService.LastId();
-            lcdaModel.LcdaCode = _codeGenerationService.NewCode(lastId, "REMS");
-            bool result = await _lcdaService.Add(lcdaModel);
-            if (result)
+            var lcda = await _lcdaManager.CreateLcda(lcdaModel);
+            if (lcda != null)
             {
-                // add current user to the lcda
-                LcdaModel lModel = await _lcdaService.Get(lcdaModel.LcdaCode);
                 return Ok(new ResponseModel()
                 {
                     code = ResponseCode.SUCCESSFUL,
-                    data = lModel.Id,
+                    data = lcda,
                     description = $"{lcdaModel.LcdaName} has been created successfully"
                 });
             }
 
             throw new BadRequestException("An error occur while processing your request. Please try again or contact an administrator");
-        }
-        [Route("assignuser")]
-        [HttpPost]
-        public async Task<IActionResult> AssignLcdaToUser([FromBody]UserLcdaModel userLcdaModel)
-        {
-            UserModel userModel = await _userService.Get(userLcdaModel.UserEmail);
-            if (userModel == null)
-            {
-                throw new BadRequestException("User does not exist");
-            }
-            if (userModel.userStatus != UserStatus.ACTIVE)
-            {
-                throw new BadRequestException("User is not active");
-            }
-            LcdaModel lcdaModel = await _lcdaService.Get(userLcdaModel.LcdaCode);
-            if (lcdaModel == null)
-            {
-                throw new BadRequestException("Lcda does not exist");
-            }
-            if (lcdaModel.LcdaStatus != LcdaStatus.ACTIVE)
-            {
-                throw new BadRequestException("LCDA is not active");
-            }
-
-            UserLcdaModel ulModel = await _userLcdaService.Get(userLcdaModel);
-            if (ulModel != null)
-            {
-                throw new BadRequestException("User already have access to the lcda");
-            }
-
-            bool result = await _userLcdaService.Add(userLcdaModel);
-            if (result)
-            {
-                return Ok(new ResponseModel()
-                {
-                    code = ResponseCode.SUCCESSFUL,
-                    description = "User has been added to the LCDA successfully"
-                });
-            }
-
-            throw new UnknownException("An error occured while trying to assign user to lcda");
         }
     }
 }

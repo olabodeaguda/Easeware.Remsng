@@ -33,5 +33,7 @@ namespace Easeware.Remsng.Entities.Entities
         public string userStatus { get; set; }
 
         public ICollection<UserLcda> UserLcdas { get; set; }
+
+       
     }
 }

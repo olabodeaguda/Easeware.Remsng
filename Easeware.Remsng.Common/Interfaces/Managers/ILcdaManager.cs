@@ -1,19 +1,13 @@
 ﻿using Easeware.Remsng.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Easeware.Remsng.Common.Interfaces.Managers
 {
     public interface ILcdaManager
     {
-        Task<bool> Add(LcdaModel lcdaModel);
-        Task<bool> Update(LcdaModel lcdaModel);
-        Task<LcdaModel> Get(long id);
-        Task<LcdaModel> Get(string lcdaCode);
-        Task<PageModel> Get(PageModel pageModel);
-        Task<LcdaModel> GetByName(string lcdaName);
-        Task<long> LastId();
+        Task<LcdaModel> CreateLcda(LcdaModel lcdaModel);
+        Task<LcdaModel> UpdateLcda(LcdaModel lcdaModel);
+        Task<LcdaModel> ApproveLcda(LcdaModel lcdaModel);
+        Task<LcdaModel> DeleteLcda(LcdaModel lcdaModel);
     }
 }

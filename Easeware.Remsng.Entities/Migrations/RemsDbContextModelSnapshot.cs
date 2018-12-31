@@ -15,7 +15,7 @@ namespace Easeware.Remsng.Entities.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.0-rtm-30799")
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -70,10 +70,15 @@ namespace Easeware.Remsng.Entities.Migrations
 
                     b.Property<DateTimeOffset>("CreatedDate");
 
+                    b.Property<string>("LcdaCode")
+                        .HasColumnType("nvarchar(20)");
+
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTimeOffset?>("ModifiedDate");
+
+                    b.Property<string>("Status");
 
                     b.HasKey("Id");
 
@@ -90,15 +95,17 @@ namespace Easeware.Remsng.Entities.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CountryCode");
+                    b.Property<string>("CountryCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(20)");
 
-                    b.Property<string>("CountryName");
+                    b.Property<string>("CountryName")
+                        .HasColumnType("nvarchar(250)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CountryCode")
-                        .IsUnique()
-                        .HasFilter("[CountryCode] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("Countries");
                 });
@@ -132,7 +139,6 @@ namespace Easeware.Remsng.Entities.Migrations
                     b.Property<DateTimeOffset>("CreatedDate");
 
                     b.Property<string>("LcdaCode")
-                        .IsRequired()
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("LcdaName")
@@ -145,14 +151,15 @@ namespace Easeware.Remsng.Entities.Migrations
 
                     b.Property<DateTimeOffset?>("ModifiedDate");
 
-                    b.Property<long>("StateId");
+                    b.Property<string>("StateCode");
 
                     b.HasKey("Id");
 
                     b.HasIndex("LcdaCode")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[LcdaCode] IS NOT NULL");
 
-                    b.HasIndex("StateId");
+                    b.HasIndex("StateCode");
 
                     b.ToTable("Lcdas");
                 });
@@ -196,13 +203,25 @@ namespace Easeware.Remsng.Entities.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTimeOffset>("CreatedDate");
+
                     b.Property<string>("LcdaCode");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTimeOffset?>("ModifiedDate");
 
                     b.Property<string>("SectorCode")
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("SectorName")
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("SectorStatus");
 
                     b.HasKey("Id");
 
@@ -215,19 +234,22 @@ namespace Easeware.Remsng.Entities.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("countryId");
+                    b.Property<string>("CountryCode")
+                        .HasColumnType("nvarchar(20)");
 
-                    b.Property<string>("stateCode");
+                    b.Property<string>("StateCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(20)");
 
-                    b.Property<string>("stateName");
+                    b.Property<string>("StateName")
+                        .HasColumnType("nvarchar(250)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("countryId");
+                    b.HasIndex("CountryCode");
 
-                    b.HasIndex("stateCode")
-                        .IsUnique()
-                        .HasFilter("[stateCode] IS NOT NULL");
+                    b.HasIndex("StateCode")
+                        .IsUnique();
 
                     b.ToTable("States");
                 });
@@ -238,8 +260,19 @@ namespace Easeware.Remsng.Entities.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTimeOffset>("CreatedDate");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTimeOffset?>("ModifiedDate");
+
                     b.Property<string>("StreetCode")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("StreetName")
                         .HasColumnType("nvarchar(150)");
@@ -247,14 +280,14 @@ namespace Easeware.Remsng.Entities.Migrations
                     b.Property<string>("StreetStatus")
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<string>("WardCode");
+                    b.Property<long>("WardId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("StreetCode")
                         .IsUnique();
 
-                    b.HasIndex("WardCode");
+                    b.HasIndex("WardId");
 
                     b.ToTable("Streets");
                 });
@@ -265,9 +298,9 @@ namespace Easeware.Remsng.Entities.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("AddressId");
+                    b.Property<string>("AddressCode");
 
-                    b.Property<long>("CompanyId");
+                    b.Property<string>("CompanyCode");
 
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(150)");
@@ -280,11 +313,13 @@ namespace Easeware.Remsng.Entities.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId")
-                        .IsUnique();
+                    b.HasIndex("AddressCode")
+                        .IsUnique()
+                        .HasFilter("[AddressCode] IS NOT NULL");
 
-                    b.HasIndex("CompanyId")
-                        .IsUnique();
+                    b.HasIndex("CompanyCode")
+                        .IsUnique()
+                        .HasFilter("[CompanyCode] IS NOT NULL");
 
                     b.ToTable("Taxpayers");
                 });
@@ -343,13 +378,13 @@ namespace Easeware.Remsng.Entities.Migrations
 
             modelBuilder.Entity("Easeware.Remsng.Entities.Entities.UserLcda", b =>
                 {
-                    b.Property<long>("LcdaId");
-
                     b.Property<long>("UserId");
 
-                    b.HasKey("LcdaId", "UserId");
+                    b.Property<long>("LcdaId");
 
-                    b.HasIndex("UserId");
+                    b.HasKey("UserId", "LcdaId");
+
+                    b.HasIndex("LcdaId");
 
                     b.ToTable("UserLcdas");
                 });
@@ -396,7 +431,7 @@ namespace Easeware.Remsng.Entities.Migrations
 
                     b.Property<DateTimeOffset>("CreatedDate");
 
-                    b.Property<string>("LcdaCode");
+                    b.Property<long>("LcdaId");
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(100)");
@@ -406,7 +441,6 @@ namespace Easeware.Remsng.Entities.Migrations
                     b.Property<string>("Status");
 
                     b.Property<string>("WardCode")
-                        .IsRequired()
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("WardName")
@@ -414,10 +448,11 @@ namespace Easeware.Remsng.Entities.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LcdaCode");
+                    b.HasIndex("LcdaId");
 
                     b.HasIndex("WardCode")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[WardCode] IS NOT NULL");
 
                     b.ToTable("Wards");
                 });
@@ -434,8 +469,8 @@ namespace Easeware.Remsng.Entities.Migrations
                 {
                     b.HasOne("Easeware.Remsng.Entities.Entities.State", "State")
                         .WithMany("Lcdas")
-                        .HasForeignKey("StateId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("StateCode")
+                        .HasPrincipalKey("StateCode");
                 });
 
             modelBuilder.Entity("Easeware.Remsng.Entities.Entities.RemsLicence", b =>
@@ -450,16 +485,16 @@ namespace Easeware.Remsng.Entities.Migrations
                 {
                     b.HasOne("Easeware.Remsng.Entities.Entities.Country", "Country")
                         .WithMany("States")
-                        .HasForeignKey("countryId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("CountryCode")
+                        .HasPrincipalKey("CountryCode");
                 });
 
             modelBuilder.Entity("Easeware.Remsng.Entities.Entities.Street", b =>
                 {
                     b.HasOne("Easeware.Remsng.Entities.Entities.Ward", "Ward")
                         .WithMany("Streets")
-                        .HasForeignKey("WardCode")
-                        .HasPrincipalKey("WardCode");
+                        .HasForeignKey("WardId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Easeware.Remsng.Entities.Entities.UserLcda", b =>
@@ -479,8 +514,8 @@ namespace Easeware.Remsng.Entities.Migrations
                 {
                     b.HasOne("Easeware.Remsng.Entities.Entities.Lcda", "Lcda")
                         .WithMany("Wards")
-                        .HasForeignKey("LcdaCode")
-                        .HasPrincipalKey("LcdaCode");
+                        .HasForeignKey("LcdaId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

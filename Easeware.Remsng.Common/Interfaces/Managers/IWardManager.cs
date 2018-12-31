@@ -1,20 +1,20 @@
 ﻿using Easeware.Remsng.Common.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Easeware.Remsng.Common.Interfaces.Managers
 {
     public interface IWardManager
     {
-        Task<ResponseModel> AddAsync(WardModel wardModel);
-        Task<ResponseModel> UpdateAsync(WardModel wardModel);
-        Task<List<WardModel>> GetByLcdaAsync(string lcdaCode);
-        Task<PageModel> GetAsync(PageModel pageModel, string lcdaCode);
-        Task<WardModel> GetAsync(string wardName);
-        Task<WardModel> GetByIdAsync(long wardId);
-        Task<ResponseModel> UpdateStatusAsync(WardModel wardModel);
+        Task<WardModel> CreateWard(WardModel wardModel);
+        Task<WardModel> UpdateWard(WardModel wardModel);
+        Task<List<WardModel>> GetByLcdaWard(string lcdaCode);
+        Task<PageModel> Get(PageModel pageModel, string lcdaCode);
+        Task<WardModel> Get(long wardId);
+        Task<WardModel> UpdateStatusAsync(WardModel wardModel);
+        Task<WardModel> Get(string wardName);
         Task<long> LastId();
+        Task<WardModel> DeActivate(long id);
+        Task<WardModel> Activate(long id);
     }
 }

@@ -1,8 +1,5 @@
 ﻿using Easeware.Remsng.Entities.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Easeware.Remsng.Entities
 {
@@ -42,21 +39,17 @@ namespace Easeware.Remsng.Entities
                 .IsUnique(true);
 
             modelBuilder.Entity<Lcda>()
-                .HasIndex(x => x.LcdaCode)
-                .IsUnique(true);
-
-            modelBuilder.Entity<Lcda>()
                 .HasMany(x => x.Licenses)
                 .WithOne(x => x.Lcda)
                 .HasForeignKey(x => x.LcdaId);
 
             modelBuilder.Entity<UserLcda>()
-             .HasKey(ky => new { ky.LcdaCode, ky.UserEmail });
+             .HasKey(ky => new { ky.UserId, ky.LcdaId });
 
             modelBuilder.Entity<UserLcda>()
                 .HasOne(x => x.Lcda)
                 .WithMany(x => x.UserLcdas)
-                .HasForeignKey(x => x.LcdaCode);
+                .HasForeignKey(x => x.LcdaId);
 
             modelBuilder.Entity<User>()
                 .HasIndex(x => x.email)
@@ -65,9 +58,7 @@ namespace Easeware.Remsng.Entities
             modelBuilder.Entity<UserLcda>()
                 .HasOne(x => x.User)
                 .WithMany(x => x.UserLcdas)
-                .HasForeignKey(x => x.UserEmail)
-                .HasPrincipalKey(x => x.email);
-
+                .HasForeignKey(x => x.UserId);
 
             modelBuilder.Entity<State>()
                 .HasOne(x => x.Country)
@@ -88,8 +79,7 @@ namespace Easeware.Remsng.Entities
             modelBuilder.Entity<Ward>()
                 .HasOne(x => x.Lcda)
                 .WithMany(x => x.Wards)
-                .HasForeignKey(x => x.LcdaCode)
-                .HasPrincipalKey(x => x.LcdaCode);
+                .HasForeignKey(x => x.LcdaId);
 
             modelBuilder.Entity<Address>()
                 .HasIndex(x => x.HouseNumber);
@@ -114,12 +104,12 @@ namespace Easeware.Remsng.Entities
             modelBuilder.Entity<Street>()
                 .HasOne(x => x.Ward)
                 .WithMany(x => x.Streets)
-                .HasForeignKey(x => x.WardCode)
-                .HasPrincipalKey(x => x.WardCode);
+                .HasForeignKey(x => x.WardId);
 
             modelBuilder.Entity<Taxpayer>()
                 .HasIndex(x => x.AddressCode)
                 .IsUnique();
+
             modelBuilder.Entity<Taxpayer>()
                 .HasIndex(x => x.CompanyCode)
                 .IsUnique();

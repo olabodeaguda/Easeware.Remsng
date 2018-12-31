@@ -13,7 +13,6 @@ namespace Easeware.Remsng.API.Controllers
 {
     [ApiVersion("2.0")]
     [Route("api/v{version:apiVersion}/sector")]
-    //[ModelValidation]
     public class SectorController : ControllerBase
     {
         private ISectorService _sectorService;

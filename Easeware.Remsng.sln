@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easeware.Remsng.Data", "Eas
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easeware.Remsng.Entities", "Easeware.Remsng.Entities\Easeware.Remsng.Entities.csproj", "{6CBC3871-55F2-47B0-9E7D-C46A8A120475}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easeware.Remsng.Services", "Easeware.Remsng.Services\Easeware.Remsng.Services.csproj", "{7E14AB69-EBA6-47AA-822A-01F3BD288A12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easeware.Remsng.Infrastructure", "Easeware.Remsng.Services\Easeware.Remsng.Infrastructure.csproj", "{7E14AB69-EBA6-47AA-822A-01F3BD288A12}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easeware.Remsng.Common", "Easeware.Remsng.Common\Easeware.Remsng.Common.csproj", "{F6896683-362E-404E-A071-AFF3E1313AEC}"
 EndProject
@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easeware.Remsng.API", "Ease
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easeware.Remsng.UI", "Easeware.Remsng.UI\Easeware.Remsng.UI.csproj", "{17366F0A-44EF-436A-B2F7-36003695A6A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easeware.Remsng.Services.Test", "Easeware.Remsng.Services.Test\Easeware.Remsng.Services.Test.csproj", "{A323A702-11A7-4212-BF0C-53A64EEB89BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easeware.Remsng.Services.Test", "Easeware.Remsng.Services.Test\Easeware.Remsng.Services.Test.csproj", "{A323A702-11A7-4212-BF0C-53A64EEB89BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

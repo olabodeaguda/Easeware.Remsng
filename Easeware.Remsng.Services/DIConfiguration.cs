@@ -1,15 +1,14 @@
-﻿using Easeware.Remsng.Common.Interfaces.Services;
+﻿using Easeware.Remsng.Common.Interfaces.Managers;
+using Easeware.Remsng.Common.Interfaces.Services;
 using Easeware.Remsng.Common.Models;
 using Easeware.Remsng.Data;
-using Easeware.Remsng.Services.Implementations;
+using Easeware.Remsng.Infrastructure.Managers;
+using Easeware.Remsng.Infrastructure.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Easeware.Remsng.Services
+namespace Easeware.Remsng.Infrastructure
 {
     public static class DIConfiguration
     {
@@ -21,19 +20,21 @@ namespace Easeware.Remsng.Services
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<EmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
             services.AddSingleton<JwtConfiguration>(Configuration.GetSection("JwtConfiguration").Get<JwtConfiguration>());
-            services.AddTransient<IEmailService, EmailService>();
-            services.AddTransient<IEncryptionService, EncryptionService>();
-            services.AddTransient<ILicenceService, LicenceService>();
-            services.AddTransient<ILcdaService, LcdaService>();
-            services.AddTransient<ITemplateService, TemplateService>();
-            services.AddTransient<ICodeGeneratorService, CodeGeneratorService>();
-            services.AddTransient<IUserLcdaService, UserLcdaService>();
-            services.AddTransient<IUserService, UserService>();
-            services.AddTransient<IVerificationService, VerificationService>();
-            services.AddTransient<IAuthService, AuthService>();
-            services.AddTransient<IJwtService, JwtService>();
-            services.AddTransient<IWardService, WardService>();
-            services.AddTransient<ISectorService, SectorService>();
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IEncryptionService, EncryptionService>();
+            services.AddScoped<ILicenceService, LicenceService>();
+            services.AddScoped<ITemplateService, TemplateService>();
+            services.AddScoped<ICodeGeneratorService, CodeGeneratorService>();
+            services.AddScoped<IVerificationService, VerificationService>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IJwtService, JwtService>();
+            services.AddScoped<ISectorService, SectorService>();
+
+            // Managers
+            services.AddScoped<ILcdaManager, LcdaManager>();
+            services.AddScoped<IUserManager, UserManager>();
+            services.AddScoped<IWardManager, WardManager>();
+            services.AddScoped<IStreetManager, StreetManager>();
 
             services.AddDistributedSqlServerCache(options =>
             {

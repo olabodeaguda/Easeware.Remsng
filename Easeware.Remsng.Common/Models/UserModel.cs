@@ -11,8 +11,7 @@ namespace Easeware.Remsng.Common.Models
     public class UserModel : BaseModel
     {
         public long id { get; set; }
-        //[Required(AllowEmptyStrings = false, ErrorMessage = "Username is required")]
-        //public string username { get; set; }
+       
         [EmailAddress(ErrorMessage = "Invalid email address")]
         [DataType(DataType.EmailAddress)]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Email is required")]

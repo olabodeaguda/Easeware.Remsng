@@ -16,7 +16,7 @@ namespace Easeware.Remsng.Common.Models
         public string WardName { get; set; }
 
         [Required(ErrorMessage = "Lcda is required")]
-        public string LcdaCode { get; set; }
+        public long LcdaId { get; set; }
         public WardStatus Status { get; set; }
         public LcdaModel Lcda { get; set; }
     }

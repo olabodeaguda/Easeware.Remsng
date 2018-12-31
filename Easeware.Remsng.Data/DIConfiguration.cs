@@ -1,11 +1,9 @@
 ﻿using Easeware.Remsng.Common.Interfaces.Managers;
-using Easeware.Remsng.Data.Implementations;
+using Easeware.Remsng.Common.Interfaces.Repositories;
+using Easeware.Remsng.Data.Repositories;
 using Easeware.Remsng.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Easeware.Remsng.Data
 {
@@ -15,13 +13,14 @@ namespace Easeware.Remsng.Data
           IConfiguration Configuration)
         {
             services.InitializeEntities(Configuration);
-            services.AddTransient<ILcdaManager, LcdaManager>();
-            services.AddTransient<IUserLcdaManager, UserLcdaManager>();
-            services.AddTransient<IUserManager, UserManager>();
-            services.AddTransient<IVerificationManager, VerificationManager>();
-            services.AddTransient<IWardManager, WardManager>();
-            services.AddTransient<ISectorManager, SectorManager>();
-            services.AddTransient<ICompanyManager, CompanyManager>();
+            services.AddTransient<ILcdaRepository, LcdaRepository>();
+            services.AddTransient<IUserLcdaRepository, UserLcdaRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IVerificationRepository, VerificationRepository>();
+            services.AddTransient<IWardRepository, WardRepository>();
+            services.AddTransient<ISectorRepository, SectorRepository>();
+            services.AddTransient<ICompanyRepository, CompanyRepository>();
+            services.AddTransient<IStreetRepository, StreetRepository>();
         }
     }
 }

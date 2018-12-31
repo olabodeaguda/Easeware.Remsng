@@ -15,7 +15,8 @@ namespace Easeware.Remsng.Entities
             var context = serviceProvider.GetRequiredService<RemsDbContext>();
             context.Database.EnsureCreated();
 
-            var ctry = context.Countries.Include(x => x.States).FirstOrDefault(x => x.CountryCode == "NGN");
+            var ctry = context.Countries.Include(x => x.States)
+                .FirstOrDefault(x => x.CountryCode == "NGN");
             if (ctry == null)
             {
                 Country c = new Country()

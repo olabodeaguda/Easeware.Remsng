@@ -1,7 +1,10 @@
 ﻿using Easeware.Remsng.Common.Models;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Text;
 
 namespace Easeware.Remsng.Common.Utilities
@@ -124,6 +127,12 @@ namespace Easeware.Remsng.Common.Utilities
             return $"REMS-{idString}";
         }
 
-
+        public static string GetUserId(this IEnumerable<Claim> claims)
+        {
+            var query = from clm in claims
+                        where clm.Type == ClaimTypes.NameIdentifier
+                        select clm.Value;
+            return query.FirstOrDefault();
+        }
     }
 }

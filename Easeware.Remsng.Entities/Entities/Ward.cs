@@ -17,7 +17,7 @@ namespace Easeware.Remsng.Entities.Entities
 
         [Column(TypeName = "nvarchar(150)")]
         public string WardName { get; set; }
-        public string LcdaCode { get; set; }
+        public long LcdaId { get; set; }
 
         public Lcda Lcda { get; set; }
         public string Status { get; set; }

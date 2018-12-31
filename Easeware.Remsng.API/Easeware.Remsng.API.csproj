@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Easeware.Remsng.Common\Easeware.Remsng.Common.csproj" />
-    <ProjectReference Include="..\Easeware.Remsng.Services\Easeware.Remsng.Services.csproj" />
+    <ProjectReference Include="..\Easeware.Remsng.Services\Easeware.Remsng.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

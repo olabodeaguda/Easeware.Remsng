@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Easeware.Remsng.API.Utilities;
-using Easeware.Remsng.Services;
+using Easeware.Remsng.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace Easeware.Remsng.API
 {
@@ -28,6 +29,7 @@ namespace Easeware.Remsng.API
             services.AddMvc(opt =>
             {
                 opt.Filters.Add(typeof(ModelValidationAttribute));
+                opt.Filters.Add(new GlobalExceptionFilter());
             }).AddJsonOptions(options =>
             {
                 options.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
@@ -38,6 +40,7 @@ namespace Easeware.Remsng.API
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseMiddleware(typeof(AccessChallengeMiddleware));
             app.UseExceptionHandler(builder =>
             {
                 builder.Run(
@@ -46,7 +49,9 @@ namespace Easeware.Remsng.API
                         context.Response.ContentType = "application/json";
                         var error = context.Features.Get<IExceptionHandlerFeature>();
                         var result = context.Get(error.Error);
-                        await context.Response.WriteAsync(result);
+                        var res =  JsonConvert.SerializeObject(result,
+                                  new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
+                        await context.Response.WriteAsync(res);
                     });
             });
 
