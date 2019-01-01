@@ -25,6 +25,8 @@ namespace Easeware.Remsng.API
         {
             services.AddAutoMapper();
             services.InitializeServices(Configuration);
+            services.InitializeSecurity(services.BuildServiceProvider());
+
             services.AddApiVersioning(v => v.ApiVersionReader = new HeaderApiVersionReader("api-version"));
             services.AddMvc(opt =>
             {
@@ -49,12 +51,12 @@ namespace Easeware.Remsng.API
                         context.Response.ContentType = "application/json";
                         var error = context.Features.Get<IExceptionHandlerFeature>();
                         var result = context.Get(error.Error);
-                        var res =  JsonConvert.SerializeObject(result,
+                        var res = JsonConvert.SerializeObject(result,
                                   new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
                         await context.Response.WriteAsync(res);
                     });
             });
-
+            app.UseAuthentication();
             app.UseMvc();
         }
     }

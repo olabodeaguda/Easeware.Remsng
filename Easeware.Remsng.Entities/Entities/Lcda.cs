@@ -23,5 +23,6 @@ namespace Easeware.Remsng.Entities.Entities
         public ICollection<RemsLicence> Licenses { get; set; }
         public ICollection<UserLcda> UserLcdas { get; set; }
         public ICollection<Ward> Wards { get; set; }
+        public ICollection<Company> Companies { get; set; }
     }
 }

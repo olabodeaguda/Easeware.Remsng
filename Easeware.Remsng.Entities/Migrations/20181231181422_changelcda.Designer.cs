@@ -4,14 +4,16 @@ using Easeware.Remsng.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Easeware.Remsng.Entities.Migrations
 {
     [DbContext(typeof(RemsDbContext))]
-    partial class RemsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181231181422_changelcda")]
+    partial class changelcda
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,7 +42,7 @@ namespace Easeware.Remsng.Entities.Migrations
 
                     b.Property<long>("OwnerId");
 
-                    b.Property<long>("StreetId");
+                    b.Property<string>("StreetCode");
 
                     b.HasKey("Id");
 
@@ -48,7 +50,7 @@ namespace Easeware.Remsng.Entities.Migrations
 
                     b.HasIndex("OwnerId");
 
-                    b.HasIndex("StreetId");
+                    b.HasIndex("StreetCode");
 
                     b.ToTable("Addresses");
                 });
@@ -272,6 +274,7 @@ namespace Easeware.Remsng.Entities.Migrations
                     b.Property<DateTimeOffset?>("ModifiedDate");
 
                     b.Property<string>("StreetCode")
+                        .IsRequired()
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("StreetName")
@@ -285,8 +288,7 @@ namespace Easeware.Remsng.Entities.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("StreetCode")
-                        .IsUnique()
-                        .HasFilter("[StreetCode] IS NOT NULL");
+                        .IsUnique();
 
                     b.HasIndex("WardId");
 
@@ -299,22 +301,12 @@ namespace Easeware.Remsng.Entities.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("AddressId");
+                    b.Property<string>("AddressCode");
 
-                    b.Property<long>("CompanyId");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTimeOffset>("CreatedDate");
+                    b.Property<string>("CompanyCode");
 
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(150)");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTimeOffset?>("ModifiedDate");
 
                     b.Property<string>("OtherNames")
                         .HasColumnType("nvarchar(150)");
@@ -322,14 +314,15 @@ namespace Easeware.Remsng.Entities.Migrations
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("TaxCategory")
-                        .IsRequired();
-
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId");
+                    b.HasIndex("AddressCode")
+                        .IsUnique()
+                        .HasFilter("[AddressCode] IS NOT NULL");
 
-                    b.HasIndex("CompanyId");
+                    b.HasIndex("CompanyCode")
+                        .IsUnique()
+                        .HasFilter("[CompanyCode] IS NOT NULL");
 
                     b.ToTable("Taxpayers");
                 });
@@ -471,8 +464,8 @@ namespace Easeware.Remsng.Entities.Migrations
                 {
                     b.HasOne("Easeware.Remsng.Entities.Entities.Street", "Street")
                         .WithMany("Addresses")
-                        .HasForeignKey("StreetId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("StreetCode")
+                        .HasPrincipalKey("StreetCode");
                 });
 
             modelBuilder.Entity("Easeware.Remsng.Entities.Entities.Company", b =>
@@ -513,19 +506,6 @@ namespace Easeware.Remsng.Entities.Migrations
                         .WithMany("Streets")
                         .HasForeignKey("WardId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Easeware.Remsng.Entities.Entities.Taxpayer", b =>
-                {
-                    b.HasOne("Easeware.Remsng.Entities.Entities.Address", "Address")
-                        .WithMany("Taxpayers")
-                        .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Easeware.Remsng.Entities.Entities.Company", "Company")
-                        .WithMany("Taxpayers")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Easeware.Remsng.Entities.Entities.UserLcda", b =>

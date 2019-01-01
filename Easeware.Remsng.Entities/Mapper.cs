@@ -200,7 +200,7 @@ namespace Easeware.Remsng.Entities
                 CreatedBy = model.CreatedBy,
                 CreatedDate = model.CreatedDate,
                 Id = model.Id,
-                LcdaCode = model.LcdaCode,
+                LcdaId = model.LcdaId,
                 ModifiedBy = model.ModifiedBy,
                 ModifiedDate = model.ModifiedDate,
                 Status = model.Status.ToString()
@@ -219,10 +219,90 @@ namespace Easeware.Remsng.Entities
                 CreatedBy = entity.CreatedBy,
                 CreatedDate = entity.CreatedDate,
                 Id = entity.Id,
-                LcdaCode = entity.LcdaCode,
+                LcdaId = entity.LcdaId,
                 ModifiedBy = entity.ModifiedBy,
                 ModifiedDate = entity.ModifiedDate,
                 Status = entity.Status.ToEnum<CompanyStatus>()
+            };
+        }
+        #endregion
+
+        #region Taxpayer
+        public static TaxpayerModel Map(this Taxpayer entity)
+        {
+            if (entity == null)
+            {
+                return null;
+            }
+
+            return new TaxpayerModel()
+            {
+                AddressId = entity.AddressId,
+                CompanyId = entity.CompanyId,
+                Id = entity.Id,
+                LastName = entity.LastName,
+                OtherNames = entity.OtherNames,
+                Status = entity.Status.ToEnum<TaxStatus>(),
+                TaxCategory = entity.TaxCategory.ToEnum<TaxCategory>(),
+
+            };
+        }
+        public static Taxpayer Map(this TaxpayerModel model)
+        {
+            if (model == null)
+            {
+                return null;
+            }
+
+            return new Taxpayer()
+            {
+                AddressId = model.AddressId,
+                CompanyId = model.CompanyId,
+                Id = model.Id,
+                LastName = model.LastName,
+                OtherNames = model.OtherNames,
+                Status = model.Status.ToString(),
+                TaxCategory = model.TaxCategory.ToString()
+            };
+        }
+        #endregion
+
+        #region Address
+        public static Address Map(this AddressModel model)
+        {
+            if (model == null)
+            {
+                return null;
+            }
+            return new Address()
+            {
+                CreatedBy = model.CreatedBy,
+                CreatedDate = model.CreatedDate,
+                HouseNumber = model.HouseNumber,
+                Id = model.Id,
+                ModifiedBy = model.ModifiedBy,
+                ModifiedDate = model.ModifiedDate,
+                Status = model.Status.ToString(),
+                StreetId = model.StreetId
+            };
+        }
+
+        public static AddressModel Map(this Address entity)
+        {
+            if (entity == null)
+            {
+                return null;
+            }
+            return new AddressModel()
+            {
+                CreatedBy = entity.CreatedBy,
+                CreatedDate = entity.CreatedDate,
+                HouseNumber = entity.HouseNumber,
+                Id = entity.Id,
+                ModifiedBy = entity.ModifiedBy,
+                ModifiedDate = entity.ModifiedDate,
+                Status = entity.Status.ToEnum<AddressStatus>(),
+                StreetId = entity.StreetId
             };
         }
         #endregion

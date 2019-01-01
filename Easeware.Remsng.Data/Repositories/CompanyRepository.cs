@@ -1,4 +1,5 @@
-﻿using Easeware.Remsng.Common.Interfaces.Managers;
+﻿using Easeware.Remsng.Common.Exceptions;
+using Easeware.Remsng.Common.Interfaces.Managers;
 using Easeware.Remsng.Common.Models;
 using Easeware.Remsng.Entities;
 using Easeware.Remsng.Entities.Entities;
@@ -28,7 +29,7 @@ namespace Easeware.Remsng.Data.Repositories
 
         public async Task<List<CompanyModel>> GetAsync(string lcdaCode)
         {
-            var company = await _context.Companies.Where(x => x.LcdaCode == lcdaCode).ToListAsync();
+            var company = await _context.Companies.Include(x => x.Lcda).Where(x => x.Lcda.LcdaCode == lcdaCode).ToListAsync();
             if (company.Count < 1)
             {
                 return new List<CompanyModel>();
@@ -39,17 +40,17 @@ namespace Easeware.Remsng.Data.Repositories
 
         public async Task<PageModel> GetAsync(string lcdaCode, PageModel pageModel)
         {
-            pageModel.TotalSize = await _context.Companies.Where(x => x.LcdaCode == lcdaCode).CountAsync();
+            pageModel.TotalSize = await _context.Companies.Where(x => x.Lcda.LcdaCode == lcdaCode).CountAsync();
             if (pageModel.PageSize < 1)
             {
                 return pageModel;
             }
             var cyps = await _context.Companies
-                .Where(x => x.LcdaCode == lcdaCode)
+                .Where(x => x.Lcda.LcdaCode == lcdaCode)
                 .Skip((pageModel.PageNumber - 1) * pageModel.PageSize).Take(pageModel.PageSize)
                 .ToArrayAsync();
 
-            pageModel.Data = cyps.Count() > 0 ? cyps.Select(x=>x.Map()).ToArray() : Array.Empty<object>();
+            pageModel.Data = cyps.Count() > 0 ? cyps.Select(x => x.Map()).ToArray() : Array.Empty<object>();
 
             return pageModel;
         }
@@ -78,6 +79,10 @@ namespace Easeware.Remsng.Data.Repositories
         public async Task<CompanyModel> UpdateAsync(CompanyModel companyModel)
         {
             Company company = await _context.Companies.FindAsync(companyModel.Id);
+            if (company == null)
+            {
+                throw new NotFoundException("Company does not exist");
+            }
             company.CompanyName = companyModel.CompanyName;
             company.ModifiedBy = companyModel.ModifiedBy;
             company.ModifiedDate = DateTimeOffset.Now;
@@ -88,6 +93,10 @@ namespace Easeware.Remsng.Data.Repositories
         public async Task<CompanyModel> UpdateStatusAsync(CompanyModel companyModel)
         {
             Company company = await _context.Companies.FindAsync(companyModel.Id);
+            if (company == null)
+            {
+                throw new NotFoundException("Company does not exist");
+            }
             company.Status = companyModel.Status.ToString();
             company.ModifiedBy = companyModel.ModifiedBy;
             company.ModifiedDate = DateTimeOffset.Now;

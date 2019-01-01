@@ -84,9 +84,6 @@ namespace Easeware.Remsng.Entities
             modelBuilder.Entity<Address>()
                 .HasIndex(x => x.HouseNumber);
 
-            modelBuilder.Entity<Address>()
-                .HasIndex(x => x.OwnerId);
-
             modelBuilder.Entity<Street>()
                 .HasIndex(x => x.StreetCode)
                 .IsUnique();
@@ -94,8 +91,7 @@ namespace Easeware.Remsng.Entities
             modelBuilder.Entity<Address>()
                 .HasOne(x => x.Street)
                 .WithMany(x => x.Addresses)
-                .HasForeignKey(x => x.StreetCode)
-                .HasPrincipalKey(x => x.StreetCode);
+                .HasForeignKey(x => x.StreetId);
 
             modelBuilder.Entity<Company>()
                 .HasIndex(x => x.CompanyCode)
@@ -107,12 +103,21 @@ namespace Easeware.Remsng.Entities
                 .HasForeignKey(x => x.WardId);
 
             modelBuilder.Entity<Taxpayer>()
-                .HasIndex(x => x.AddressCode)
-                .IsUnique();
+                .HasOne(x => x.Address)
+                .WithMany(x => x.Taxpayers)
+                .HasForeignKey(x => x.AddressId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Taxpayer>()
-                .HasIndex(x => x.CompanyCode)
-                .IsUnique();
+                .HasOne(x => x.Company)
+                .WithMany(x => x.Taxpayers)
+                .HasForeignKey(x => x.CompanyId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Company>()
+                .HasOne(x => x.Lcda)
+                .WithMany(x => x.Companies)
+                .HasForeignKey(x => x.LcdaId);
         }
     }
 }

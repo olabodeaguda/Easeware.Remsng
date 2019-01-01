@@ -35,6 +35,7 @@ namespace Easeware.Remsng.Infrastructure
             services.AddScoped<IUserManager, UserManager>();
             services.AddScoped<IWardManager, WardManager>();
             services.AddScoped<IStreetManager, StreetManager>();
+            services.AddScoped<ICompanyManager, CompanyManager>();
 
             services.AddDistributedSqlServerCache(options =>
             {
