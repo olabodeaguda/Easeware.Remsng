@@ -12,5 +12,6 @@ namespace Easeware.Remsng.Common.Interfaces.Repositories
         Task<PageModel> Get(long lcdaId, PageModel pageModel);
         Task<TaxpayerModel> UpdateTaxpayer(TaxpayerModel model);
         Task<TaxpayerModel> UpdateStatus(TaxpayerModel tm);
+        Task<long> LastId();
     }
 }

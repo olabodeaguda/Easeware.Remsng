@@ -22,6 +22,8 @@ namespace Easeware.Remsng.Data
             services.AddTransient<ICompanyRepository, CompanyRepository>();
             services.AddTransient<IStreetRepository, StreetRepository>();
             services.AddTransient<ICompanyRepository, CompanyRepository>();
+            services.AddTransient<ITaxpayerRepository, TaxpayerRepository>();
+            services.AddTransient<IAddressRepository, AddressRepository>();
         }
     }
 }

@@ -38,15 +38,13 @@ namespace Easeware.Remsng.Entities.Migrations
 
                     b.Property<DateTimeOffset?>("ModifiedDate");
 
-                    b.Property<long>("OwnerId");
+                    b.Property<string>("Status");
 
                     b.Property<long>("StreetId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("HouseNumber");
-
-                    b.HasIndex("OwnerId");
 
                     b.HasIndex("StreetId");
 
@@ -322,8 +320,9 @@ namespace Easeware.Remsng.Entities.Migrations
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("TaxCategory")
-                        .IsRequired();
+                    b.Property<string>("TaxCategory");
+
+                    b.Property<string>("TaxCode");
 
                     b.HasKey("Id");
 

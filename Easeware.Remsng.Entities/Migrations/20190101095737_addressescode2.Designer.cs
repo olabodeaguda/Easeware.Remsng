@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Easeware.Remsng.Entities.Migrations
 {
     [DbContext(typeof(RemsDbContext))]
-    [Migration("20181231072452_initial3")]
-    partial class initial3
+    [Migration("20190101095737_addressescode2")]
+    partial class addressescode2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -40,17 +40,15 @@ namespace Easeware.Remsng.Entities.Migrations
 
                     b.Property<DateTimeOffset?>("ModifiedDate");
 
-                    b.Property<long>("OwnerId");
+                    b.Property<string>("Status");
 
-                    b.Property<string>("StreetCode");
+                    b.Property<long>("StreetId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("HouseNumber");
 
-                    b.HasIndex("OwnerId");
-
-                    b.HasIndex("StreetCode");
+                    b.HasIndex("StreetId");
 
                     b.ToTable("Addresses");
                 });
@@ -72,8 +70,7 @@ namespace Easeware.Remsng.Entities.Migrations
 
                     b.Property<DateTimeOffset>("CreatedDate");
 
-                    b.Property<string>("LcdaCode")
-                        .HasColumnType("nvarchar(20)");
+                    b.Property<long>("LcdaId");
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(100)");
@@ -87,6 +84,8 @@ namespace Easeware.Remsng.Entities.Migrations
                     b.HasIndex("CompanyCode")
                         .IsUnique()
                         .HasFilter("[CompanyCode] IS NOT NULL");
+
+                    b.HasIndex("LcdaId");
 
                     b.ToTable("Companies");
                 });
@@ -273,7 +272,6 @@ namespace Easeware.Remsng.Entities.Migrations
                     b.Property<DateTimeOffset?>("ModifiedDate");
 
                     b.Property<string>("StreetCode")
-                        .IsRequired()
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("StreetName")
@@ -287,7 +285,8 @@ namespace Easeware.Remsng.Entities.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("StreetCode")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[StreetCode] IS NOT NULL");
 
                     b.HasIndex("WardId");
 
@@ -300,12 +299,22 @@ namespace Easeware.Remsng.Entities.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AddressCode");
+                    b.Property<long>("AddressId");
 
-                    b.Property<string>("CompanyCode");
+                    b.Property<long>("CompanyId");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTimeOffset>("CreatedDate");
 
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTimeOffset?>("ModifiedDate");
 
                     b.Property<string>("OtherNames")
                         .HasColumnType("nvarchar(150)");
@@ -313,15 +322,15 @@ namespace Easeware.Remsng.Entities.Migrations
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("TaxCategory");
+
+                    b.Property<string>("TaxCode");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressCode")
-                        .IsUnique()
-                        .HasFilter("[AddressCode] IS NOT NULL");
+                    b.HasIndex("AddressId");
 
-                    b.HasIndex("CompanyCode")
-                        .IsUnique()
-                        .HasFilter("[CompanyCode] IS NOT NULL");
+                    b.HasIndex("CompanyId");
 
                     b.ToTable("Taxpayers");
                 });
@@ -463,8 +472,16 @@ namespace Easeware.Remsng.Entities.Migrations
                 {
                     b.HasOne("Easeware.Remsng.Entities.Entities.Street", "Street")
                         .WithMany("Addresses")
-                        .HasForeignKey("StreetCode")
-                        .HasPrincipalKey("StreetCode");
+                        .HasForeignKey("StreetId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Easeware.Remsng.Entities.Entities.Company", b =>
+                {
+                    b.HasOne("Easeware.Remsng.Entities.Entities.Lcda", "Lcda")
+                        .WithMany("Companies")
+                        .HasForeignKey("LcdaId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Easeware.Remsng.Entities.Entities.Lcda", b =>
@@ -497,6 +514,19 @@ namespace Easeware.Remsng.Entities.Migrations
                         .WithMany("Streets")
                         .HasForeignKey("WardId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Easeware.Remsng.Entities.Entities.Taxpayer", b =>
+                {
+                    b.HasOne("Easeware.Remsng.Entities.Entities.Address", "Address")
+                        .WithMany("Taxpayers")
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Easeware.Remsng.Entities.Entities.Company", "Company")
+                        .WithMany("Taxpayers")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Easeware.Remsng.Entities.Entities.UserLcda", b =>

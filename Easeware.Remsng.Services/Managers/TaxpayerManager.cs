@@ -1,48 +1,119 @@
-﻿using Easeware.Remsng.Common.Interfaces.Managers;
+﻿using Easeware.Remsng.Common.Exceptions;
+using Easeware.Remsng.Common.Interfaces.Managers;
 using Easeware.Remsng.Common.Interfaces.Repositories;
+using Easeware.Remsng.Common.Interfaces.Services;
 using Easeware.Remsng.Common.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Easeware.Remsng.Infrastructure.Managers
 {
     public class TaxpayerManager : ITaxpayerManager
     {
+        private IAddressRepository _addRepo;
+        private IHttpContextAccessor _httpContextAccessor;
         private ITaxpayerRepository _tpRepo;
-        public TaxpayerManager(ITaxpayerRepository taxpayerRepository)
+        private readonly ICodeGeneratorService _codeGeneratorService;
+        public TaxpayerManager(ITaxpayerRepository taxpayerRepository,
+            IHttpContextAccessor httpContextAccessor,
+            ICodeGeneratorService codeGeneratorService,
+            IAddressRepository addressRepository)
         {
             _tpRepo = taxpayerRepository;
+            _httpContextAccessor = httpContextAccessor;
+            _codeGeneratorService = codeGeneratorService;
+            _addRepo = addressRepository;
         }
-        public Task<TaxpayerModel> CreateTaxpayer(TaxpayerModel model)
+        public async Task<TaxpayerModel> CreateTaxpayer(TaxpayerRegistrationModel model)
         {
-            throw new NotImplementedException();
+            AddressModel addressModel = new AddressModel()
+            {
+                CreatedBy = _httpContextAccessor.HttpContext.User.Identity.Name,
+                HouseNumber = model.HouseNumber,
+                StreetId = model.StreetId,
+            };
+            addressModel = await _addRepo.CreateAddress(addressModel);
+            long intialId = await _tpRepo.LastId();
+            TaxpayerModel taxpayerModel = new TaxpayerModel()
+            {
+                AddressId = addressModel.Id,
+                CompanyId = model.CompanyId,
+                CreatedBy = _httpContextAccessor.HttpContext.User.Identity.Name,
+                LastName = model.LastName,
+                OtherNames = model.OtherNames,
+                TaxCategory = model.TaxCategory,
+                TaxCode = _codeGeneratorService.NewCode(intialId, "TX")
+            };
+            taxpayerModel = await _tpRepo.CreateTaxpayer(taxpayerModel);
+            return taxpayerModel;
         }
 
-        public Task<PageModel> Get(long lcdaId, PageModel pageModel)
+        public async Task<PageModel> Get(long lcdaId, PageModel pageModel)
         {
-            throw new NotImplementedException();
+            if (lcdaId == default(long))
+            {
+                throw new BadRequestException("Invalid request");
+            }
+            return await _tpRepo.Get(lcdaId, pageModel);
         }
 
-        public Task<List<TaxpayerModel>> GetAsync(long streetId)
+        public async Task<List<TaxpayerModel>> GetAsync(long streetId)
         {
-            throw new NotImplementedException();
+            if (streetId == default(long))
+            {
+                throw new BadRequestException("Invalid request");
+            }
+            return await _tpRepo.GetAsync(streetId);
         }
 
-        public Task<List<TaxpayerModel>> GetByLcda(long lcdaId)
+        public async Task<List<TaxpayerModel>> GetByLcda(long lcdaId)
         {
-            throw new NotImplementedException();
+            if (lcdaId == default(long))
+            {
+                throw new BadRequestException("Invalid request");
+            }
+            return await _tpRepo.GetByLcda(lcdaId);
         }
 
-        public Task<TaxpayerModel> UpdateStatus(TaxpayerModel tm)
+        public async Task<TaxpayerModel> Activate(long id)
         {
-            throw new NotImplementedException();
+            if (id == default(long))
+            {
+                throw new BadRequestException("Invalid request");
+            }
+
+            return await _tpRepo.UpdateStatus(new TaxpayerModel()
+            {
+                Id = id,
+                Status = TaxStatus.ACTIVE,
+                ModifiedBy = _httpContextAccessor.HttpContext.User.Identity.Name,
+                ModifiedDate = DateTimeOffset.Now
+            });
         }
 
-        public Task<TaxpayerModel> UpdateTaxpayer(TaxpayerModel model)
+        public async Task<TaxpayerModel> Deactivate(long id)
         {
-            throw new NotImplementedException();
+            if (id == default(long))
+            {
+                throw new BadRequestException("Invalid request");
+            }
+
+            return await _tpRepo.UpdateStatus(new TaxpayerModel()
+            {
+                Id = id,
+                Status = TaxStatus.NOT_ACTIVE,
+                ModifiedBy = _httpContextAccessor.HttpContext.User.Identity.Name,
+                ModifiedDate = DateTimeOffset.Now
+            });
+        }
+
+        public async Task<TaxpayerModel> UpdateTaxpayer(TaxpayerModel model)
+        {
+            model.ModifiedBy = _httpContextAccessor.HttpContext.User.Identity.Name;
+            model.ModifiedDate = DateTimeOffset.Now;
+            return await _tpRepo.UpdateTaxpayer(model);
         }
     }
 }

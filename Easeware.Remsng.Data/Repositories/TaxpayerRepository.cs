@@ -97,5 +97,14 @@ namespace Easeware.Remsng.Data.Repositories
             return result.Map();
         }
 
+        public async Task<long> LastId()
+        {
+            var lastWard = await _context.Taxpayers.LastOrDefaultAsync();
+            if (lastWard == null)
+            {
+                return 0;
+            }
+            return lastWard.Id;
+        }
     }
 }
